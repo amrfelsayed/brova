@@ -180,7 +180,7 @@ textarea{width:100%;min-height:300px;border:1px solid var(--line);border-radius:
 .mode-btns{display:flex;flex-direction:column;gap:10px;margin-top:auto}
 #s-chars .scr-body{overflow:hidden;gap:12px;padding-bottom:14px}
 #s-chars .preview-field{flex:1;min-height:0}
-#s-chars .preview{flex:1;min-height:0;overflow:hidden;-webkit-mask-image:linear-gradient(#000 78%,transparent);mask-image:linear-gradient(#000 78%,transparent)}
+#s-chars .preview{flex:1;min-height:0;overflow-y:auto;overscroll-behavior:contain}
 #s-chars .mode-btns{flex:none}
 #role-chips{flex-wrap:nowrap;overflow-x:auto;overscroll-behavior-x:contain;scroll-snap-type:x proximity;margin-inline:-18px;padding:2px 18px 4px;scrollbar-width:none}
 #role-chips::-webkit-scrollbar{display:none}
@@ -284,6 +284,15 @@ button.chipx.to{border:1px dashed var(--line);background:var(--card);cursor:poin
 .subs .small{font-family:var(--f-body);font-size:12px;color:var(--stage-muted)}
 .subs .mine-cue .hl{color:#1A1606;background:linear-gradient(transparent 14%,#FFE14D 14%,#FFE14D 88%,transparent 88%)}
 .subs .blank{border-bottom-color:#1A1606}
+.subs.pscript{display:block;flex:1;min-height:0;overflow-y:auto;overscroll-behavior:contain;position:relative;text-align:start;margin-bottom:6px;padding:8px 12px 40px}
+.ps-tools{text-align:center;margin-bottom:6px}
+.ps-line{padding:8px 10px;border-radius:12px;margin:2px 0;border-inline-start:3px solid transparent}
+.ps-line.now{background:rgba(255,255,255,.07);border-inline-start-color:#FFE14D}
+.ps-name{font-family:var(--f-body);font-size:12px;color:var(--stage-muted)}
+.ps-text{font-family:var(--f-script);font-size:23px;line-height:1.75;color:var(--stage-fg)}
+.ps-line.mine .hl{color:#1A1606;background:linear-gradient(transparent 14%,#FFE14D 14%,#FFE14D 88%,transparent 88%)}
+.ps-dir{font-family:var(--f-script);font-size:16px;color:var(--stage-muted);text-align:center;margin:6px 0}
+.subs.nosubs .ps-line:not(.mine) .ps-text{filter:blur(7px)}
 .stage-ctrl{margin-top:auto;display:flex;align-items:center;justify-content:space-between;padding:12px 18px 16px;gap:8px}
 .stage-ctrl .icon-btn{background:var(--stage-2);color:var(--stage-fg);width:46px;height:46px;border-radius:50%}
 .stage-ctrl .play{width:64px;height:64px;border-radius:50%;border:0;background:var(--stage-fg);color:var(--stage);display:grid;place-items:center}
@@ -1334,9 +1343,9 @@ function renderChars(){
   const nl=S.items.filter(i=>i.t==='line').length, nd=S.items.filter(i=>i.t==='dir').length;
   $('#chars-sub').textContent=`${ar(nl)} جملة، ${ar(nd)} إرشادات`;
   $('#role-chips').innerHTML=S.chars.map(c=>`<button type="button" class="chip" data-role="${esc(c.name)}" aria-pressed="${c.name===S.role}"><span class="dot" style="background:${colorOf(c.name)}"></span>${esc(c.name)} <small>${ar(c.n)} جمل</small></button>`).join('');
-  $('#preview').innerHTML=S.items.filter(i=>i.t!=='head').slice(0,5).map(it=>it.t==='dir'
-    ?`<div class="sc-dir" style="margin:2px 0;font-size:14px">(${esc(it.text)})</div>`
-    :`<div><div class="sc-name"><span class="dot" style="background:${colorOf(it.char)}"></span>${esc(it.char)}${toChip(it)}</div><div class="sc-text" style="font-size:16px">${it.char===S.role?`<span class="hl">${esc(it.voice||it.text)}</span>`:esc(it.voice||it.text)}</div></div>`).join('');
+  $('#preview').innerHTML=S.items.filter(i=>i.t!=='head').map(it=>it.t==='dir'
+    ?`<div class="sc-dir" style="margin:4px 0;font-size:16px">(${esc(it.text)})</div>`
+    :`<div><div class="sc-name"><span class="dot" style="background:${colorOf(it.char)}"></span>${esc(it.char)}${toChip(it)}</div><div class="sc-text" style="font-size:20px">${it.char===S.role?`<span class="hl">${esc(it.voice||it.text)}</span>`:esc(it.voice||it.text)}</div></div>`).join('');
 }
 $('#role-chips').addEventListener('click',e=>{const b=e.target.closest('[data-role]');if(!b)return;S.role=b.dataset.role;renderChars()});
 /* ---------- Claude reads the scene ----------
@@ -1909,17 +1918,32 @@ function enterPartner(){
   startCam();
   F.face=null;setFace(firstOther(S.i),true);setEmo('neutral');
   $('#partner-sub').textContent=`${S.title}، إنتي: ${S.role}`;
-  $('#subs').innerHTML='<span class="small">دوسي ▶ والشخصية هتبدأ المشهد</span><button type="button" class="linkbtn" id="p-mictest">🎙 اختبري الميكروفون الأول</button><small class="mic-out" id="p-mictest-out"></small>';
+  renderPartnerScript();pCursor(S.i);
   $('#p-state').textContent='جاهز';$('#p-state').className='state-pill';
   $('#p-done').hidden=true;$('#face-wrap').classList.remove('listening');pState();voiceNote();
 }
-function pCursor(){}
+function renderPartnerScript(){
+  const box=$('#subs');box.classList.add('pscript');box.classList.toggle('nosubs',!S.subs);
+  box.innerHTML='<div class="ps-tools"><button type="button" class="linkbtn" id="p-mictest">🎙 اختبري الميكروفون الأول</button><small class="mic-out" id="p-mictest-out"></small></div>'+
+    S.items.map((it,i)=>{
+      if(it.t==='dir')return `<div class="ps-dir" data-i="${i}">(${esc(it.text)})</div>`;
+      if(it.t!=='line')return '';
+      const mine=it.char===S.role,how=it.paren||it.feel;
+      return `<div class="ps-line${mine?' mine':''}" data-i="${i}"><div class="ps-name">${esc(it.char)}${how?'، '+esc(how):''}</div><div class="ps-text">${mine?`<span class="hl">${hideHTML(it.voice||it.text)}</span>`:esc(it.voice||it.text)}</div></div>`;
+    }).join('');
+}
+// keep the current line highlighted and scrolled into view
+function pCursor(i){
+  const box=$('#subs');if(!box.classList.contains('pscript'))return;
+  box.querySelectorAll('.now').forEach(e=>e.classList.remove('now'));
+  const el=box.querySelector(`[data-i="${i}"]`);if(!el)return;
+  el.classList.add('now');box.scrollTo({top:el.offsetTop-box.clientHeight*.3,behavior:'smooth'});
+}
 async function pBefore(it){
   await setFace(it.char);
   setEmo(it.emo);$('#p-state').textContent='بيفكر…';$('#p-state').className='state-pill';
   const how=[it.to?'لـ'+it.to:'',it.paren||it.feel,it.intentLabel].filter(Boolean).map(esc).join('، ');
-  if(S.subs)$('#subs').innerHTML=`<span class="small">${esc(it.char)}${how?'، '+how:''}</span><span>${esc(it.voice||it.text)}</span>`;
-  else $('#subs').innerHTML=`<span class="small">${esc(it.char)} بيتكلم، النص مخفي</span>`;
+  pCursor(S.items.indexOf(it));
   await wait(RM?100:480);
 }
 function pSpeaking(it,on){
@@ -1933,14 +1957,14 @@ function pTurn(it,on){
     setEmo('listening');$('#p-state').textContent=S.mic&&mic.on?'بيسمعك… 🎙':S.micBlocked?'🎙 مقفول هنا: دوسي «خلصت»':'بيسمعك…';$('#p-state').className='state-pill on';
     $('#p-done').textContent=S.mic&&mic.on?'خلصت (أو اسكتي وهيكمّل) ←':'خلصت جملتي ←';
     const how=[it.paren||it.feel,it.intentLabel].filter(Boolean).map(esc).join('، ');
-    $('#subs').innerHTML=`<span class="small">دورك يا ${esc(S.role)}${how?'، '+how:''}</span><span class="mine-cue" data-i="${S.items.indexOf(it)}"><span class="hl">${hideHTML(it.voice||it.text)}</span></span>`;
+    pCursor(S.items.indexOf(it));
   }else{F.listenLv=0;$('.ring').style.boxShadow=''}
 }
 // her voice moves the partner: the ring follows her loudness and the face leans in while she speaks
 function pLevel(v){F.listenLv=v;const r=$('#face-cv').hidden?$('.ring'):$('#face-cv');if(r&&S.mic)r.style.boxShadow=v>0?`0 0 0 ${(4+v*26).toFixed(0)}px rgba(255,225,77,${(.12+v*.3).toFixed(2)})`:''}
 function pHeard(){$('#p-state').textContent='سامعك ✓'}
 function pState(){const b=$('#p-play');b.innerHTML=E.playing?ICON.pause:ICON.play;b.setAttribute('aria-label',E.playing?'إيقاف':'تشغيل')}
-function pDone(){setEmo('soft');$('#p-state').textContent='خلص المشهد';$('#p-state').className='state-pill';$('#subs').innerHTML='<span>برافو 👏</span><span class="small">دوسي ▶ تعيدي، أو ↺ من الأول</span>'}
+function pDone(){setEmo('soft');$('#p-state').textContent='خلص المشهد';$('#p-state').className='state-pill';toast('برافو 👏 دوسي ▶ تعيدي، أو ↺ من الأول',3000)}
 $('#p-play').addEventListener('click',toggle);
 $('#p-done').addEventListener('click',finishTurn);
 $('#subs').addEventListener('click',e=>{const bl=e.target.closest('.blank');if(bl)bl.classList.toggle('show')});
@@ -1948,7 +1972,7 @@ $('#p-restart').addEventListener('click',()=>{stop();S.i=secRange().start;enterP
 $('#p-mic').addEventListener('click',toggleMic);
 $('#mic-test').addEventListener('click',()=>micTest($('#mic-test-out')));
 $('#subs').addEventListener('click',e=>{if(e.target.id==='p-mictest')micTest($('#p-mictest-out'))});
-$('#p-subs').addEventListener('click',()=>{S.subs=!S.subs;$('#p-subs').setAttribute('aria-pressed',String(S.subs));$('#p-subs').style.opacity=S.subs?1:.5;toast(S.subs?'نص الشخصية ظاهر':'نص الشخصية مخفي، ركزي في عينيه')});
+$('#p-subs').addEventListener('click',()=>{S.subs=!S.subs;$('#subs').classList.toggle('nosubs',!S.subs);$('#p-subs').setAttribute('aria-pressed',String(S.subs));$('#p-subs').style.opacity=S.subs?1:.5;toast(S.subs?'نص الشخصية ظاهر':'نص الشخصية مخفي، ركزي في عينيه')});
 
 /* ---------- next ---------- */
 const FEATS=[
