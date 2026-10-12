@@ -58,6 +58,8 @@ button{font:inherit;color:inherit;cursor:pointer}
 .phone{position:relative;width:390px;height:800px;border:11px solid var(--bezel);border-radius:52px;background:var(--card);overflow:hidden;box-shadow:0 30px 60px -30px rgba(10,12,30,.45)}
 .notch{position:absolute;top:8px;left:50%;transform:translateX(-50%);width:108px;height:30px;border-radius:20px;background:var(--bezel);z-index:30;display:flex;align-items:center;justify-content:flex-end;padding-inline:12px}
 .notch i{width:10px;height:10px;border-radius:50%;background:#2A2F55;box-shadow:inset 0 0 0 2px #0C0E1C}
+.vid{font-weight:700;background:var(--hi);color:var(--on-hi);border-radius:5px;padding:1px 5px;margin-inline-end:6px;letter-spacing:.04em}
+.vid-tag{display:none;position:absolute;top:6px;left:8px;z-index:70;font-family:var(--f-mono);font-size:11px;font-weight:700;background:var(--hi);color:var(--on-hi);border-radius:5px;padding:1px 5px;pointer-events:none;opacity:.9}
 .statusbar{position:absolute;top:0;inset-inline:0;height:46px;display:flex;align-items:center;justify-content:space-between;padding:6px 30px 0;font-family:var(--f-mono);font-size:13px;font-weight:500;z-index:25;pointer-events:none}
 .screens{position:absolute;top:46px;bottom:0;inset-inline:0}
 .screen{position:absolute;inset:0;display:flex;flex-direction:column;background:var(--card)}
@@ -338,6 +340,8 @@ button.chipx.to{border:1px dashed var(--line);background:var(--card);cursor:poin
   .app-layout{padding-top:12px}
   .phone{width:100%;height:min(760px,calc(100dvh - 92px));min-height:580px;border:0;border-radius:22px;box-shadow:0 0 0 1px var(--line)}
   .notch,.statusbar{display:none}
+  .vid-tag{display:block}
+  .pip{top:30px}
   .screens{top:0}
   .notes h2{font-size:24px}
   .biz h1{font-size:36px}
@@ -360,7 +364,8 @@ button.chipx.to{border:1px dashed var(--line);background:var(--card);cursor:poin
     <div class="app-layout">
       <div class="phone" id="phone">
         <div class="notch"><i></i></div>
-        <div class="statusbar"><span>٩:٤١</span><span>5G ▮▮▮</span></div>
+        <div class="statusbar"><span>٩:٤١</span><span dir="ltr"><b class="vid" id="vid">V01</b> 5G ▮▮▮</span></div>
+        <div class="vid-tag" id="vid-tag" dir="ltr">V01</div>
         <div class="screens">
 
           <!-- HOME -->
@@ -1241,9 +1246,11 @@ function renderNote(k){
 }
 
 /* ---------- navigation ---------- */
+const VIEW_IDS={home:'V01',import:'V02',scan:'V03',files:'V04',chat:'V05',paste:'V06',proc:'V07',chars:'V08',reader:'V09',partner:'V10',next:'V11',sheet:'V12'};
+function setViewId(k){const v=VIEW_IDS[k]||'V00';$('#vid').textContent=v;$('#vid-tag').textContent=v;const e=$('#n-eyebrow');if(e&&NOTES[k])e.textContent=v+'، '+NOTES[k].e}
 function show(k){
   $$('.screen').forEach(s=>s.hidden=s.id!=='s-'+k);
-  S.screen=k;renderNote(k);
+  S.screen=k;renderNote(k);setViewId(k);
   if(k==='reader'){S.mode='reader';renderReader()}
   if(k==='partner'){S.mode='partner';enterPartner()}
 }
@@ -1769,8 +1776,8 @@ $('#sheet').addEventListener('click',e=>{
   const t=e.target.closest('[data-tog]');
   if(t){if(t.dataset.tog==='mic'){toggleMic().then(renderSheet);return}S[t.dataset.tog]=!S[t.dataset.tog];renderSheet()}
 });
-$('#r-settings').addEventListener('click',()=>{renderSheet();$('#sheet').hidden=false});
-function closeSheet(){$('#sheet').hidden=true}
+$('#r-settings').addEventListener('click',()=>{renderSheet();$('#sheet').hidden=false;setViewId('sheet')});
+function closeSheet(){if(!$('#sheet').hidden){$('#sheet').hidden=true;setViewId(S.screen)}}
 $('#sheet-close').addEventListener('click',closeSheet);
 
 /* ---------- AI partner face ---------- */
