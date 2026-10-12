@@ -98,6 +98,13 @@ button{font:inherit;color:inherit;cursor:pointer}
 #s-project .new-cta .plus svg{width:18px;height:18px}
 #s-project .new-cta b{font-size:15px;display:inline;font-family:var(--f-display)}
 #s-project .new-cta small{font-size:12px;opacity:.75;margin-inline-start:6px}
+.p-search{display:flex;align-items:center;gap:8px;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:0 12px;color:var(--muted)}
+.p-search:focus-within{border-color:var(--ink);color:var(--ink)}
+.p-search input{flex:1;min-width:0;border:0;background:transparent;font:inherit;font-size:15px;color:var(--ink);padding:11px 0;outline:0}
+.p-search input::placeholder{color:var(--muted)}
+.lib-item .hit{display:block;margin-top:4px;font-size:12px;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.lib-item .hit mark{background:var(--hi);color:var(--on-hi);border-radius:3px;padding:0 2px}
+.scene-empty{color:var(--muted);font-size:14px;text-align:center;padding:18px 0}
 .new-cta-old{border:0;text-align:start;background:var(--ink);color:var(--card);border-radius:20px;padding:18px;display:flex;gap:14px;align-items:center}
 .new-cta .plus{width:46px;height:46px;border-radius:14px;background:var(--hi);color:var(--on-hi);display:grid;place-items:center;flex:none}
 .new-cta b{font-family:var(--f-display);font-size:20px;display:block}
@@ -302,6 +309,7 @@ button.chipx.to{border:1px dashed var(--line);background:var(--card);cursor:poin
 .voice-note{font-size:11px;color:var(--muted);text-align:center;line-height:1.4}
 
 /* sheet */
+.sheet-wrap.in-partner .only-reader{display:none}
 .sheet-wrap{position:absolute;inset:0;background:rgba(8,9,20,.45);display:flex;align-items:flex-end;z-index:40}
 .sheet{background:var(--card);width:100%;border-radius:22px 22px 0 0;padding:10px 18px 22px;display:flex;flex-direction:column;gap:14px;max-height:85%;overflow-y:auto}
 .sheet .grab{width:40px;height:5px;border-radius:3px;background:var(--line);margin:0 auto}
@@ -478,6 +486,7 @@ button.state-pill{border:0;font-family:inherit;cursor:pointer}
           <div class="screen" id="s-project" hidden>
             <div class="scr-head"><button type="button" class="icon-btn back" aria-label="رجوع"></button><div class="grow"><h3 id="proj-title"></h3><div class="sub" id="proj-sub"></div></div></div>
             <div class="scr-body">
+              <label class="p-search"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg><input type="search" id="scene-q" placeholder="دوّري في المشاهد والجمل" autocomplete="off" enterkeyhint="search"></label>
               <button type="button" class="new-cta" data-go="import">
                 <span class="plus"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span>
                 <span><b>سكريبت جديد</b><small>ورق، Word أو PDF، واتساب</small></span>
@@ -596,7 +605,7 @@ button.state-pill{border:0;font-family:inherit;cursor:pointer}
 
           <!-- READER (Scene Partner) -->
           <div class="screen" id="s-reader" hidden>
-            <div class="scr-head"><button type="button" class="icon-btn back" aria-label="رجوع"></button><div class="grow"><h3>Scene Partner</h3><div class="sub" id="reader-sub"></div></div><button type="button" class="icon-btn" id="to-partner" aria-label="AI Partner"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="10" r="6"/><circle cx="10" cy="9" r=".8" fill="currentColor"/><circle cx="14" cy="9" r=".8" fill="currentColor"/><path d="M10 12.5c1.2.8 2.8.8 4 0M6 21c1.5-3 3.5-4 6-4s4.5 1 6 4"/></svg></button></div>
+            <div class="scr-head"><button type="button" class="icon-btn back" aria-label="رجوع"></button><div class="grow"><h3>Scene Partner</h3><div class="sub" id="reader-sub"></div></div><button type="button" class="icon-btn" id="r-settings" data-settings aria-label="إعدادات البروفة"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg></button><button type="button" class="icon-btn" id="to-partner" aria-label="AI Partner"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="10" r="6"/><circle cx="10" cy="9" r=".8" fill="currentColor"/><circle cx="14" cy="9" r=".8" fill="currentColor"/><path d="M10 12.5c1.2.8 2.8.8 4 0M6 21c1.5-3 3.5-4 6-4s4.5 1 6 4"/></svg></button></div>
             <div class="sections" id="sections"></div>
             <div class="script" id="script"></div>
             <div class="cuebar" id="cuebar" hidden><div class="cue-txt"><b>دورك يا <span id="cue-name"></span></b><small id="cue-sub"></small><span class="meter" id="cue-meter" hidden><i></i></span></div><button type="button" id="cue-done">خلصت ←</button></div>
@@ -607,31 +616,14 @@ button.state-pill{border:0;font-family:inherit;cursor:pointer}
                 <button type="button" class="icon-btn" id="r-prev" aria-label="الجملة اللي قبل"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M8 6l8 6-8 6zM18 6v12"/></svg></button>
                 <button type="button" class="play" id="r-play" aria-label="تشغيل"></button>
                 <button type="button" class="icon-btn" id="r-next" aria-label="الجملة اللي بعد"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M16 6l-8 6 8 6zM6 6v12"/></svg></button>
-                <button type="button" class="icon-btn" id="r-settings" aria-label="الإعدادات"><span class="speedtag" id="speedtag">١×</span></button>
               </div>
               <div class="voice-note" id="voice-note" hidden>صوت تجريبي من الموبايل، التطبيق الحقيقي بصوت مصري طبيعي</div>
-            </div>
-            <div class="sheet-wrap" id="sheet" hidden>
-              <div class="sheet" role="dialog" aria-label="إعدادات البروفة">
-                <div class="grab"></div>
-                <h4>إعدادات البروفة</h4>
-                <div class="field"><span class="label">سرعة القراية</span><div class="seg" data-set="speed"></div></div>
-                <div class="field"><span class="label">وقفة بعد كل جملة</span><div class="seg" data-set="pause"></div></div>
-                <div class="field"><span class="label">إخفاء كلامك بالتدريج (Active Recall)</span><div class="seg" data-set="hide"></div></div>
-                <div class="field"><button type="button" class="btn ghost" id="mic-test" style="padding:9px 12px">🎙 اختبري الميكروفون</button><small class="mic-out" id="mic-test-out"></small></div>
-                <button type="button" class="toggle" data-tog="mic"><span>🎙 الميكروفون يعرف إنك خلصتي<small>قولي جملتك، ولما تسكتي يكمّل المشهد لوحده</small></span><span class="sw"></span></button>
-                <div class="field"><span class="label">يستنى قد إيه سكوت قبل ما يكمّل (عشان الوقفات الدرامية)</span><div class="seg" data-set="silence"></div></div>
-                <button type="button" class="toggle" data-tog="autoTurn"><span>استنّي وقت جملتي لوحدك<small>بدل ما أدوس «خلصت» بعد كل جملة</small></span><span class="sw"></span></button>
-                <button type="button" class="toggle" data-tog="loop"><span>عيدي المقطع لوحده<small>يلف على نفس المقطع لحد ما توقفي</small></span><span class="sw"></span></button>
-                <button type="button" class="toggle" data-tog="readDirs"><span>اقري الإرشادات<small>زي «الأم تدخل وهي بتلبس الطرحة»</small></span><span class="sw"></span></button>
-                <button type="button" class="btn primary" id="sheet-close">تمام</button>
-              </div>
             </div>
           </div>
 
           <!-- AI PARTNER -->
           <div class="screen stage" id="s-partner" hidden>
-            <div class="scr-head"><button type="button" class="icon-btn back" aria-label="رجوع"></button><div class="grow"><h3>AI Partner</h3><div class="sub" id="partner-sub"></div></div></div>
+            <div class="scr-head"><button type="button" class="icon-btn back" aria-label="رجوع"></button><div class="grow"><h3>AI Partner</h3><div class="sub" id="partner-sub"></div></div><button type="button" class="icon-btn" id="p-settings" data-settings aria-label="إعدادات البروفة"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg></button></div>
             
             <div class="cam-tip" hidden><b>↑ الكاميرا</b> بصّي في عينيه، هتبقي باصة للكاميرا</div>
             <div class="face-wrap" id="face-wrap">
@@ -707,7 +699,23 @@ button.state-pill{border:0;font-family:inherit;cursor:pointer}
             <div style="padding:0 18px 12px"><button type="button" class="btn primary" id="copy-feats" style="width:100%">انسخي اختياراتك وابعتيها على واتساب</button><textarea id="copy-fallback" hidden style="min-height:80px;margin-top:8px"></textarea></div>
           </div>
 
-          <nav class="nav gnav" id="gnav"></nav>
+          <div class="sheet-wrap" id="sheet" hidden>
+            <div class="sheet" role="dialog" aria-label="إعدادات البروفة">
+              <div class="grab"></div>
+              <h4>إعدادات البروفة</h4>
+              <div class="field"><span class="label">سرعة القراية</span><div class="seg" data-set="speed"></div></div>
+              <div class="field"><span class="label">وقفة بعد كل جملة</span><div class="seg" data-set="pause"></div></div>
+              <div class="field only-reader"><span class="label">إخفاء كلامك بالتدريج (Active Recall)</span><div class="seg" data-set="hide"></div></div>
+              <div class="field"><button type="button" class="btn ghost" id="mic-test" style="padding:9px 12px">🎙 اختبري الميكروفون</button><small class="mic-out" id="mic-test-out"></small></div>
+              <button type="button" class="toggle" data-tog="mic"><span>🎙 الميكروفون يعرف إنك خلصتي<small>قولي جملتك، ولما تسكتي يكمّل المشهد لوحده</small></span><span class="sw"></span></button>
+              <div class="field"><span class="label">يستنى قد إيه سكوت قبل ما يكمّل (عشان الوقفات الدرامية)</span><div class="seg" data-set="silence"></div></div>
+              <button type="button" class="toggle" data-tog="autoTurn"><span>استنّي وقت جملتي لوحدك<small>بدل ما أدوس «خلصت» بعد كل جملة</small></span><span class="sw"></span></button>
+              <button type="button" class="toggle" data-tog="loop"><span>عيدي المقطع لوحده<small>يلف على نفس المقطع لحد ما توقفي</small></span><span class="sw"></span></button>
+              <button type="button" class="toggle" data-tog="readDirs"><span>اقري الإرشادات<small>زي «الأم تدخل وهي بتلبس الطرحة»</small></span><span class="sw"></span></button>
+              <button type="button" class="btn primary" id="sheet-close">تمام</button>
+            </div>
+          </div>
+<nav class="nav gnav" id="gnav"></nav>
         </div>
         <div class="toast" id="toast" hidden></div>
       </div>
@@ -1455,7 +1463,7 @@ $$('.back').forEach(b=>b.addEventListener('click',back));
 $$('[data-go]').forEach(b=>b.addEventListener('click',()=>go(b.dataset.go)));
 $$('[data-toast]').forEach(b=>b.addEventListener('click',()=>toast(b.dataset.toast)));
 function navHTML(cur){
-  return [['home','مشاريعي',ICON.home],['takes','تسجيلاتي',ICON.rec],['dates','مواعيد',ICON.cal],['account','الحساب',ICON.user]]
+  return [['home','مشاريعي',ICON.home],['takes','تسجيلاتي',ICON.rec],['account','الحساب',ICON.user]]
    .map(([k,t,ic])=>`<button type="button" data-nav-go="${k}" ${k===cur?'aria-current="page"':''}>${ic}${t}</button>`).join('');
 }
 $$('.nav').forEach(n=>{n.innerHTML=navHTML(n.dataset.nav);});
@@ -1483,15 +1491,39 @@ function renderProjects(){
     return `<button type="button" class="lib-item" data-project="${p.id}"><span class="pg"></span><span class="meta"><b>${esc(p.title)}</b><small>${esc(p.kind)}، إنتي: ${esc(p.role)}، ${n===1?'مشهد واحد':n===2?'مشهدين':ar(n)+' مشاهد'}، ${esc(p.when)}</small>${pct(avg)}</span></button>`;
   }).join('');
 }
+let curProject=null;
 function openProject(id){
   const p=PROJECTS.find(x=>x.id===id);if(!p)return;
+  curProject=p;
   $('#proj-title').textContent=p.title;$('#proj-sub').textContent=`${p.kind}، إنتي: ${p.role}، ${p.when}`;
-  $('#scenes').innerHTML=p.scenes.map(([sid,label,prog])=>{
-    const items=parse(SCRIPTS[sid].text),lines=items.filter(i=>i.t==='line'),mine=lines.filter(l=>l.char===p.role).length,chars=charsOf(items).length;
-    return `<button type="button" class="lib-item" data-script="${sid}"><span class="pg"></span><span class="meta"><b>${esc(label)}</b><small>${ar(lines.length)} جملة، منهم ${ar(mine)} ليكي، ${chars===2?'شخصيتين':ar(chars)+' شخصيات'}</small>${pct(prog)}</span></button>`;
-  }).join('');
+  $('#scene-q').value='';
+  renderScenes();
   go('project');
 }
+// V13 search: matches the scene title, a character name, or any line of the scene
+function renderScenes(){
+  const p=curProject;if(!p)return;
+  const q=normAr($('#scene-q').value.trim());
+  const html=p.scenes.map(([sid,label,prog])=>{
+    const items=parse(SCRIPTS[sid].text),lines=items.filter(i=>i.t==='line'),mine=lines.filter(l=>l.char===p.role).length,chars=charsOf(items).length;
+    let hit='';
+    if(q){
+      const inTitle=normAr(label).includes(q);
+      const ln=lines.find(l=>normAr(l.text).includes(q)||normAr(l.char).includes(q));
+      if(!inTitle&&!ln)return '';
+      if(ln&&!inTitle)hit=`<span class="hit">${esc(ln.char)}: ${markHit(ln.text,q)}</span>`;
+    }
+    return `<button type="button" class="lib-item" data-script="${sid}"><span class="pg"></span><span class="meta"><b>${esc(label)}</b><small>${ar(lines.length)} جملة، منهم ${ar(mine)} ليكي، ${chars===2?'شخصيتين':ar(chars)+' شخصيات'}</small>${hit}${pct(prog)}</span></button>`;
+  }).join('');
+  $('#scenes').innerHTML=html||`<div class="scene-empty">مفيش مشهد فيه «${esc($('#scene-q').value.trim())}»</div>`;
+}
+// highlight the query inside the original (diacritised) text by matching word-by-word on the normalised form
+function markHit(text,q){
+  const parts=String(text).split(/(\s+)/);
+  return parts.map(w=>/\S/.test(w)&&q.split(/\s+/).some(t=>t&&normAr(w).includes(t))?`<mark>${esc(w)}</mark>`:esc(w)).join('');
+}
+$('#scene-q').addEventListener('input',renderScenes);
+$('#scene-q').addEventListener('keydown',e=>{if(e.key==='Enter')e.target.blur()});
 renderProjects();
 /* ---------- self-tape takes: recorded in V10, kept on this device (IndexedDB), watched in V14 ---------- */
 const TakeDB={
@@ -2078,7 +2110,6 @@ function renderReader(){
   $('#script').innerHTML=html;
   const ni=$('#note-in');if(ni){ni.focus();let fin=false;const done=()=>{if(fin)return;fin=true;const v=ni.value.trim();if(v)NB.notes[S.editNote]=v;else delete NB.notes[S.editNote];S.editNote=null;saveNotes();setTimeout(renderReader,0)};ni.addEventListener('blur',done);ni.addEventListener('change',done);ni.addEventListener('keydown',e=>{if(e.key==='Enter')done()})}
   rCursor(S.i,true);rState();voiceNote();
-  $('#speedtag').textContent=ar(S.speed)+'×';
   $('#donebar').hidden=true;
 }
 function rCursor(i,noScroll){
@@ -2180,11 +2211,11 @@ function renderSheet(){
 $('#sheet').addEventListener('click',e=>{
   if(e.target.id==='sheet'){closeSheet();return}
   const b=e.target.closest('[data-v]');
-  if(b){const k=b.closest('[data-set]').dataset.set;S[k]=+b.dataset.v;renderSheet();if(k==='hide'||k==='speed'){const i=S.i;renderReader();S.i=i}return}
+  if(b){const k=b.closest('[data-set]').dataset.set;S[k]=+b.dataset.v;renderSheet();if((k==='hide'||k==='speed')&&S.screen==='reader'){const i=S.i;renderReader();S.i=i}return}
   const t=e.target.closest('[data-tog]');
   if(t){if(t.dataset.tog==='mic'){toggleMic().then(renderSheet);return}S[t.dataset.tog]=!S[t.dataset.tog];renderSheet()}
 });
-$('#r-settings').addEventListener('click',()=>{renderSheet();$('#sheet').hidden=false;setViewId('sheet')});
+$$('[data-settings]').forEach(b=>b.addEventListener('click',()=>{renderSheet();$('#sheet').classList.toggle('in-partner',S.screen==='partner');$('#sheet').hidden=false;setViewId('sheet')}));
 function closeSheet(){if(!$('#sheet').hidden){$('#sheet').hidden=true;setViewId(S.screen)}}
 $('#sheet-close').addEventListener('click',closeSheet);
 
