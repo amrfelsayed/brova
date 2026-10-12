@@ -195,6 +195,35 @@ textarea{width:100%;min-height:300px;border:1px solid var(--line);border-radius:
 .sections button[aria-pressed="true"]{background:var(--ink);color:var(--card);border-color:var(--ink)}
 .script{flex:1;min-height:0;overflow-y:auto;padding:6px 18px 28px;position:relative;background:var(--paper)}
 .sc-head{font-family:var(--f-mono);font-size:11px;color:var(--muted);text-align:center;padding:10px 0 4px}
+.scene-head{border:1px solid var(--line);background:var(--card);border-radius:14px;padding:10px 12px;margin:8px 0 6px;display:flex;flex-direction:column;gap:6px}
+.sh-row{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.sh-num{font-size:16px}
+.sh-tag{font-size:12px;font-weight:600;border:1px solid var(--line);border-radius:999px;padding:1px 9px}
+.sh-place{font-size:14px;font-weight:600}
+.sh-cast{display:flex;flex-wrap:wrap;gap:4px 12px;align-items:baseline;font-size:13px}
+.sh-label{font-size:11px;color:var(--muted);width:100%}
+.cast{display:inline-flex;align-items:baseline;gap:5px}
+.cast small{color:var(--muted);font-size:12px}
+.cast.me b{background:var(--hi);color:var(--on-hi);padding:0 4px;border-radius:3px}
+.goal{display:flex;flex-direction:column;gap:4px;font-size:12px;font-weight:600;color:var(--muted)}
+.goal input,.note-in{font:inherit;font-size:14px;font-weight:500;color:var(--ink);background:var(--paper);border:1px dashed var(--line);border-radius:10px;padding:7px 10px;width:100%}
+.goal-ro{font-size:14px;color:#FFE14D}
+.sc-dir.mine-act{color:var(--ink);background:linear-gradient(transparent 55%,rgba(255,225,77,.5) 55%);border-radius:4px}
+.act{font-family:var(--f-body);font-size:11px;font-weight:700;color:var(--on-hi);background:var(--hi);border-radius:999px;padding:0 7px}
+.ps-dir.mine-act{color:#FFE14D}
+.beat{display:flex;align-items:center;gap:8px;margin:12px 0 4px;color:var(--cue);font-size:11px;font-weight:700}
+.beat::before,.beat::after{content:"";flex:1;border-top:1.5px dashed currentColor;opacity:.6}
+.note{font-size:13px;color:var(--muted);background:var(--soft);border-radius:8px;padding:4px 10px;margin:2px 0 6px}
+.pscript .note{background:rgba(255,255,255,.06);color:var(--stage-muted)}
+.ntools{display:flex;gap:6px;margin-top:4px}
+.ntools button{font-size:11px;font-weight:600;border:1px dashed var(--line);background:var(--card);border-radius:999px;padding:2px 9px;color:var(--muted)}
+.rbadge{display:inline-block;font-size:11px;font-weight:700;color:#fff;background:#2F8270;border-radius:999px;padding:0 8px;margin-inline-end:6px}
+.rbadge.end{background:var(--cue)}
+.out{opacity:.35}
+.sections .tool{border-style:dashed}
+.pscript .scene-head{background:rgba(255,255,255,.04);border-color:rgba(255,255,255,.12);color:var(--stage-fg)}
+.pscript .sh-tag{border-color:rgba(255,255,255,.2)}
+.pscript .cast small,.pscript .sh-label{color:var(--stage-muted)}
 .sc-sec{font-size:11px;font-weight:700;color:var(--muted);display:flex;align-items:center;gap:8px;margin:14px 0 4px}
 .sc-sec::after{content:"";flex:1;border-top:1px dashed var(--line)}
 .sc-dir{font-family:var(--f-script);font-style:normal;color:var(--muted);font-size:15px;margin:8px 0;padding-inline:26px;text-align:center}
@@ -787,8 +816,8 @@ const SAMPLE=`مشهد ٣٢، داخلي، مطبخ بيت العيلة، الف
 الأم: خدي، وخلي بالك من نفسك. وكلميني كل يوم، سامعة؟
 ليلى: حاضر يا ماما. حاضر.`;
 const SCRIPTS={
-  main:{title:'بيت العيلة، مشهد ٣٢',role:'ليلى',text:SAMPLE},
-  bank:{title:'أوديشن إعلان، بنك',role:'سلمى',text:`مشهد إعلان، بنك، فرع البنك، الصبح
+  main:{title:'بيت العيلة، مشهد ٣٢',role:'ليلى',text:SAMPLE,cast:{'ليلى':'إنتي، الأخت الكبيرة','كريم':'أخوها الصغير','الأم':'مامتهم'}},
+  bank:{title:'أوديشن إعلان، بنك',role:'سلمى',cast:{'سلمى':'إنتي، عميلة متوترة أول مرة تفتح حساب','الموظف':'موظف خدمة العملاء'},text:`مشهد إعلان، بنك، فرع البنك، الصبح
 (سلمى داخلة الفرع وفي إيدها ملف مليان ورق.)
 الموظف: صباح الخير يا فندم، أقدر أساعدك إزاي؟
 سلمى: (متوترة) أنا عايزة أفتح حساب، بس بصراحة مش فاهمة أي حاجة في الورق ده.
@@ -803,7 +832,7 @@ const SCRIPTS={
 الموظف: تمام يا أستاذة سلمى. هبعتلك كود على موبايلك دلوقتي.
 سلمى: (بتبص في الموبايل) وصل! ده أسرع من الدليفري.
 الموظف: (بيضحك) ده اللي بنقوله في الإعلان بالظبط.`},
-  station:{title:'بيت العيلة، مشهد ٣٣',role:'ليلى',text:`مشهد ٣٣، خارجي، محطة مصر، الصبح
+  station:{title:'بيت العيلة، مشهد ٣٣',role:'ليلى',cast:{'ليلى':'إنتي، مسافرة إسكندرية','كريم':'أخوها الصغير'},text:`مشهد ٣٣، خارجي، محطة مصر، الصبح
 (ليلى واقفة على الرصيف بشنطتها. كريم بيجري ناحيتها.)
 كريم: (نهجان) استني! نسيتي الشاحن بتاعك.
 ليلى: (بتضحك) جيت لحد هنا عشان شاحن؟
@@ -813,7 +842,7 @@ const SCRIPTS={
 ليلى: (بتقرا) «خلي بالك من نفسك يا بنتي». هي كتبتها إمتى؟
 كريم: طول الليل. متقوليلهاش إني قلتلك.
 ليلى: (بحنية) مش هقولها. يلا، القطر هيقوم.`},
-  cafe:{title:'فيلم، كافيه في الزمالك',role:'نور',text:`مشهد ١٤، خارجي، كافيه في الزمالك، بالليل
+  cafe:{title:'فيلم، كافيه في الزمالك',role:'نور',cast:{'نور':'إنتي','يوسف':'خطيبها القديم، اختفى من خمس سنين'},text:`مشهد ١٤، خارجي، كافيه في الزمالك، بالليل
 (نور قاعدة لوحدها. يوسف بيقرب من الترابيزة ومتردد.)
 يوسف: (متردد) نور؟ مش معقول… إنتي لسه بتيجي هنا؟
 نور: (مستغربة) يوسف! أنا اللي المفروض أسألك السؤال ده.
@@ -1273,7 +1302,7 @@ const S={
   i:0,sectionSel:-1,speed:1,pause:1,hide:0,autoTurn:false,loop:false,readDirs:false,mic:false,silence:1,
   mode:'reader',subs:true
 };
-S.genders={};
+S.genders={};S.scriptId='main';S.cast=SCRIPTS.main.cast||{};
 // characters, their genders (kept if the actor changed them) and who each line is said to
 function prep(){
   S.chars=charsOf(S.items);
@@ -1374,7 +1403,7 @@ renderProjects();
 document.addEventListener('click',e=>{
   const pj=e.target.closest('[data-project]');if(pj){openProject(pj.dataset.project);return}
   const b=e.target.closest('#scenes [data-script]');if(!b)return;
-  const sc=SCRIPTS[b.dataset.script];S.items=parse(sc.text);S.title=sc.title;S.role=sc.role;prep();go('chars');
+  const sc=SCRIPTS[b.dataset.script];S.scriptId=b.dataset.script;S.cast=sc.cast||{};S.items=parse(sc.text);S.title=sc.title;S.role=sc.role;loadNotes();prep();go('chars');
 });
 
 /* scan / files / chat / paste -> processing */
@@ -1573,7 +1602,9 @@ function speak(text,char,it){
 /* ---------- engine ---------- */
 let runTok=0;const E={playing:false,turn:null,ended:false};
 function secRange(){
-  const n=S.items.length;if(S.sectionSel<0)return{start:0,end:n-1};
+  const n=S.items.length;
+  if(S.sectionSel==='range'&&NB.range&&NB.range.end!=null)return{start:NB.range.start,end:NB.range.end};
+  if(S.sectionSel<0||S.sectionSel==='range')return{start:0,end:n-1};
   let st=-1,en=-1;S.items.forEach((it,i)=>{if(it.section===S.sectionSel){if(st<0)st=i;en=i}});
   return{start:Math.max(0,st),end:Math.max(0,en)};
 }
@@ -1762,22 +1793,71 @@ function paintTrace(idx,a){
 }
 function clearTrace(){$$('.tracing').forEach(el=>el.classList.remove('tracing'))}
 function sectionsList(){return [...new Set(S.items.map(i=>i.section))]}
+/* ---------- actor's page: scene header, cast, objective, her actions, start/end, beats, notes ---------- */
+var NB={objective:'',beats:[],notes:{},range:null};
+const notesKey=()=>'brova-notes-'+(S.scriptId||'paste');
+function loadNotes(){try{NB=Object.assign({objective:'',beats:[],notes:{},range:null},JSON.parse(localStorage.getItem(notesKey())||'{}'))}catch(e){NB={objective:'',beats:[],notes:{},range:null}}S.sectionSel=-1}
+function saveNotes(){try{localStorage.setItem(notesKey(),JSON.stringify(NB))}catch(e){}}
+function parseHead(text){
+  const parts=String(text||'').split(/[،,·|]/).map(x=>x.trim()).filter(Boolean);
+  const h={num:'',io:'',time:'',place:[]};
+  const TIME=/^(ليل|بالليل|نهار|بالنهار|الفجر|فجر|الصبح|صبح|الضهر|العصر|المغرب|بعد الضهر)$/;
+  for(const p of parts){
+    if(!h.num&&/^مشهد/.test(p))h.num=p;
+    else if(!h.io&&/^(داخلي|خارجي|داخلي\/خارجي)$/.test(p))h.io=p;
+    else if(!h.time&&TIME.test(p))h.time=p;
+    else h.place.push(p);
+  }
+  return h;
+}
+const isMineAct=it=>it.t==='dir'&&S.role&&bare(it.text).includes(bare(S.role));
+function sceneHeaderHTML(editable){
+  const head=S.items.find(i=>i.t==='head'),h=parseHead(head&&head.text);
+  const tags=[h.io,h.time].filter(Boolean).map(t=>`<span class="sh-tag">${esc(t)}</span>`).join('');
+  const cast=S.chars.map(c=>{const d=(S.cast||{})[c.name];return `<span class="cast${c.name===S.role?' me':''}"><span class="dot" style="background:${colorOf(c.name)}"></span><b>${esc(c.name)}</b>${d?`<small>${esc(d)}</small>`:''}</span>`}).join('');
+  const goal=editable
+    ?`<label class="goal"><span>🎯 عايزة إيه في المشهد؟</span><input id="goal" type="text" value="${esc(NB.objective||'')}" placeholder="مثلًا: إن كريم يفهمني من غير ما أعيّط"></label>`
+    :(NB.objective?`<div class="goal-ro">🎯 ${esc(NB.objective)}</div>`:'');
+  return `<div class="scene-head"><div class="sh-row">${h.num?`<b class="sh-num">${esc(h.num)}</b>`:''}${tags}</div>${h.place.length?`<div class="sh-place">${esc(h.place.join('، '))}</div>`:''}<div class="sh-cast"><span class="sh-label">في المشهد</span>${cast}</div>${goal}</div>`;
+}
+function beatBefore(i){const k=NB.beats.slice().sort((a,b)=>a-b).indexOf(i);return k<0?'':`<div class="beat"><span>بيت ${ar(k+2)}</span></div>`}
+function noteHTML(i,editable){
+  if(editable&&S.editNote===i)return `<input class="note-in" id="note-in" data-note-in="${i}" value="${esc(NB.notes[i]||'')}" placeholder="ملاحظتك على الجملة دي">`;
+  return NB.notes[i]?`<div class="note">✎ ${esc(NB.notes[i])}</div>`:'';
+}
+function rangeBadge(i){
+  const r=NB.range;if(!r)return '';
+  return (r.start===i?'<span class="rbadge">▶ من هنا</span>':'')+(r.end===i?'<span class="rbadge end">⏹ لحد هنا</span>':'');
+}
+const outOfRange=i=>S.sectionSel==='range'&&NB.range&&NB.range.end!=null&&(i<NB.range.start||i>NB.range.end);
+function noteTools(i){return S.noteMode?`<span class="ntools"><button type="button" data-beat="${i}">${NB.beats.includes(i)?'− بيت':'＋ بيت'}</button><button type="button" data-note="${i}">✎ ملاحظة</button></span>`:''}
 function renderReader(){
   $('#reader-sub').textContent=`${S.title}، إنتي: ${S.role}`;
   const secs=sectionsList();
-  $('#sections').hidden=secs.length<2;
-  $('#sections').innerHTML=`<button type="button" data-sec="-1" aria-pressed="${S.sectionSel<0}">المشهد كله</button>`+secs.map(s=>`<button type="button" data-sec="${s}" aria-pressed="${S.sectionSel===s}">المقطع ${ar(s+1)}</button>`).join('');
-  let last=-1,html='';
+  $('#sections').hidden=false;
+  const hasRange=NB.range&&NB.range.end!=null;
+  $('#sections').innerHTML=`<button type="button" data-sec="-1" aria-pressed="${S.sectionSel===-1}">المشهد كله</button>`
+    +(secs.length>1?secs.map(x=>`<button type="button" data-sec="${x}" aria-pressed="${S.sectionSel===x}">المقطع ${ar(x+1)}</button>`).join(''):'')
+    +(hasRange?`<button type="button" data-sec="range" aria-pressed="${S.sectionSel==='range'}">✂️ الجزء بتاعي</button>`:'')
+    +`<button type="button" class="tool" data-tool="range" aria-pressed="${!!S.pick}">${S.pick==='start'?'دوسي على أول جملة':S.pick==='end'?'دوسي على آخر جملة':hasRange?'✂️ غيّري الجزء':'✂️ من هنا لحد هنا'}</button>`
+    +(hasRange?`<button type="button" class="tool" data-tool="clear">✕ امسحي الجزء</button>`:'')
+    +`<button type="button" class="tool" data-tool="notes" aria-pressed="${!!S.noteMode}">✏️ ملاحظات وبيتس</button>`;
+  let last=-1,html=sceneHeaderHTML(true);
   S.items.forEach((it,i)=>{
-    if(secs.length>1&&it.section!==last&&it.t!=='head'){html+=`<div class="sc-sec">المقطع ${ar(it.section+1)}</div>`;last=it.section}
-    if(it.t==='head')html+=`<div class="sc-head">${esc(it.text)}</div>`;
-    else if(it.t==='dir')html+=`<p class="sc-dir" data-i="${i}">(${esc(it.text)})</p>`;
-    else{
+    if(it.t==='head')return;
+    if(secs.length>1&&it.section!==last){html+=`<div class="sc-sec">المقطع ${ar(it.section+1)}</div>`;last=it.section}
+    html+=beatBefore(i);
+    const out=outOfRange(i)?' out':'';
+    if(it.t==='dir'){
+      const act=isMineAct(it);
+      html+=`<p class="sc-dir${act?' mine-act':''}${out}" data-i="${i}">${rangeBadge(i)}${act?'<span class="act">✋ فعلك</span> ':''}(${esc(it.text)})${noteTools(i)}</p>${noteHTML(i,true)}`;
+    }else{
       const mine=it.char===S.role;
-      html+=`<div class="sc-line ${mine?'mine':''}" data-i="${i}"><div class="sc-name"><span class="dot" style="background:${colorOf(it.char)}"></span>${esc(it.char)}${it.paren?` <span class="paren">(${esc(it.paren)})</span>`:''}${readChips(it)}</div><p class="sc-text">${mine?`<span class="hl">${hideHTML(it.voice||it.text)}</span>`:esc(it.voice||it.text)}</p></div>`;
+      html+=`<div class="sc-line ${mine?'mine':''}${out}" data-i="${i}">${rangeBadge(i)}<div class="sc-name"><span class="dot" style="background:${colorOf(it.char)}"></span>${esc(it.char)}${it.paren?` <span class="paren">(${esc(it.paren)})</span>`:''}${readChips(it)}</div><p class="sc-text">${mine?`<span class="hl">${hideHTML(it.voice||it.text)}</span>`:esc(it.voice||it.text)}</p>${noteTools(i)}</div>${noteHTML(i,true)}`;
     }
   });
   $('#script').innerHTML=html;
+  const ni=$('#note-in');if(ni){ni.focus();let fin=false;const done=()=>{if(fin)return;fin=true;const v=ni.value.trim();if(v)NB.notes[S.editNote]=v;else delete NB.notes[S.editNote];S.editNote=null;saveNotes();setTimeout(renderReader,0)};ni.addEventListener('blur',done);ni.addEventListener('change',done);ni.addEventListener('keydown',e=>{if(e.key==='Enter')done()})}
   rCursor(S.i,true);rState();voiceNote();
   $('#speedtag').textContent=ar(S.speed)+'×';
   $('#donebar').hidden=true;
@@ -1834,13 +1914,32 @@ $('#r-next').addEventListener('click',()=>step(1));
 $('#script').addEventListener('click',e=>{
   const bl=e.target.closest('.blank');if(bl){bl.classList.toggle('show');return}
   const tc=e.target.closest('[data-to]');if(tc){const keep=S.i;cycleTo(+tc.dataset.to);renderReader();S.i=keep;rCursor(keep,true);return}
+  if(e.target.closest('#goal,.note-in'))return;
+  const bt=e.target.closest('[data-beat]');if(bt){const i=+bt.dataset.beat;NB.beats=NB.beats.includes(i)?NB.beats.filter(x=>x!==i):[...NB.beats,i];saveNotes();renderReader();return}
+  const nt=e.target.closest('[data-note]');if(nt){S.editNote=+nt.dataset.note;renderReader();return}
   const el=e.target.closest('[data-i]');if(!el)return;
+  if(S.pick){
+    const i=+el.dataset.i;
+    if(S.pick==='start'){NB.range={start:i,end:null};S.pick='end';toast('تمام. دلوقتي دوسي على آخر جملة')}
+    else{const a=Math.min(NB.range.start,i),b=Math.max(NB.range.start,i);NB.range={start:a,end:b};S.pick=null;S.sectionSel='range';S.i=a;saveNotes();toast('البروفة هتبقى على الجزء ده بس')}
+    renderReader();return;
+  }
+  if(S.noteMode)return;
   const wasPlaying=E.playing;stop();S.i=+el.dataset.i;rCursor(S.i,true);if(wasPlaying)play();
 });
 $('#sections').addEventListener('click',e=>{
+  const t=e.target.closest('[data-tool]');
+  if(t){
+    stop();const k=t.dataset.tool;
+    if(k==='range'){S.noteMode=false;S.pick=S.pick?null:'start';if(S.pick)toast('دوسي على أول جملة في الجزء اللي هتذاكريه')}
+    if(k==='clear'){NB.range=null;S.pick=null;S.sectionSel=-1;saveNotes()}
+    if(k==='notes'){S.pick=null;S.noteMode=!S.noteMode;if(S.noteMode)toast('دوسي «＋ بيت» عشان تقسّمي المشهد، أو «✎» لملاحظة')}
+    renderReader();return;
+  }
   const b=e.target.closest('[data-sec]');if(!b)return;
-  stop();S.sectionSel=+b.dataset.sec;S.i=secRange().start;renderReader();
+  stop();const v=b.dataset.sec;S.sectionSel=v==='range'?'range':+v;S.i=secRange().start;renderReader();
 });
+document.addEventListener('input',e=>{if(e.target.id==='goal'){NB.objective=e.target.value;saveNotes()}});
 $('#to-partner').addEventListener('click',()=>{stop();go('partner')});
 $('#again').addEventListener('click',()=>{S.i=secRange().start;play()});
 $('#done-partner').addEventListener('click',()=>{S.i=secRange().start;go('partner')});
@@ -2003,10 +2102,12 @@ function renderPartnerScript(){
   const box=$('#subs');box.classList.add('pscript');box.classList.toggle('nosubs',!S.subs);
   box.innerHTML='<div class="ps-tools"><button type="button" class="linkbtn" id="p-mictest">🎙 اختبري الميكروفون الأول</button><small class="mic-out" id="p-mictest-out"></small></div>'+
     S.items.map((it,i)=>{
-      if(it.t==='dir')return `<div class="ps-dir" data-i="${i}">(${esc(it.text)})</div>`;
+      if(it.t==='head')return sceneHeaderHTML(false);
+      const pre=beatBefore(i),post=noteHTML(i,false),out=outOfRange(i)?' out':'';
+      if(it.t==='dir')return `${pre}<div class="ps-dir${isMineAct(it)?' mine-act':''}${out}" data-i="${i}">${isMineAct(it)?'<span class="act">✋ فعلك</span> ':''}(${esc(it.text)})</div>${post}`;
       if(it.t!=='line')return '';
       const mine=it.char===S.role,how=it.paren||it.feel;
-      return `<div class="ps-line${mine?' mine':''}" data-i="${i}"><div class="ps-name">${esc(it.char)}${how?'، '+esc(how):''}</div><div class="ps-text">${mine?`<span class="hl">${hideHTML(it.voice||it.text)}</span>`:esc(it.voice||it.text)}</div></div>`;
+      return `${pre}<div class="ps-line${mine?' mine':''}${out}" data-i="${i}"><div class="ps-name">${esc(it.char)}${how?'، '+esc(how):''}</div><div class="ps-text">${mine?`<span class="hl">${hideHTML(it.voice||it.text)}</span>`:esc(it.voice||it.text)}</div></div>${post}`;
     }).join('');
 }
 // keep the current line highlighted and scrolled into view
