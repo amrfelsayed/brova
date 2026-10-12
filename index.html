@@ -319,7 +319,7 @@ button.chipx.to{border:1px dashed var(--line);background:var(--card);cursor:poin
 #s-partner .face-wrap svg{padding:10px 4px 0;border-radius:16px}
 #s-partner .pip.side,#s-partner #face-cv{border-radius:16px}
 #s-partner .who-row{margin-top:2px}
-.ps-line{padding:8px 10px;border-radius:12px;margin:2px 0;border-inline-start:3px solid transparent}
+.ps-line{cursor:pointer;padding:8px 10px;border-radius:12px;margin:2px 0;border-inline-start:3px solid transparent}
 .ps-line.now{background:rgba(255,255,255,.07);border-inline-start-color:#FFE14D}
 .ps-name{font-family:var(--f-body);font-size:12px;color:var(--stage-muted)}
 .ps-text{font-family:var(--f-script);font-size:23px;line-height:1.75;color:var(--stage-fg)}
@@ -428,10 +428,6 @@ button.chipx.to{border:1px dashed var(--line);background:var(--card);cursor:poin
               <div>
                 <p class="hello">صباح الخير يا دينا</p>
               </div>
-              <button type="button" class="new-cta" data-go="import">
-                <span class="plus"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span>
-                <span><b>سكريبت جديد</b><small>صوّري الورق، ملف Word أو PDF، أو من واتساب</small></span>
-              </button>
               <div class="label">مشاريعك</div>
               <div class="lib" id="projects"></div>
             </div>
@@ -442,6 +438,10 @@ button.chipx.to{border:1px dashed var(--line);background:var(--card);cursor:poin
           <div class="screen" id="s-project" hidden>
             <div class="scr-head"><button type="button" class="icon-btn back" aria-label="رجوع"></button><div class="grow"><h3 id="proj-title"></h3><div class="sub" id="proj-sub"></div></div></div>
             <div class="scr-body">
+              <button type="button" class="new-cta" data-go="import">
+                <span class="plus"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span>
+                <span><b>سكريبت جديد</b><small>مشهد جديد للمشروع ده: صوّري الورق، ملف Word أو PDF، أو من واتساب</small></span>
+              </button>
               <div class="label">المشاهد</div>
               <div class="lib" id="scenes"></div>
             </div>
@@ -1629,7 +1629,7 @@ async function run(){
     const r=secRange();S.i++;
     if(S.i>r.end){if(S.loop){S.i=r.start;toast('من أول المقطع تاني')}else break}
   }
-  if(tok===runTok){E.playing=false;E.ended=true;H.state();H.done()}
+  if(tok===runTok){E.playing=false;E.ended=true;live.stop();H.state();H.done()}
 }
 /* ---------- listening for her line (voice activity, no words needed) ---------- */
 const mic={on:false,an:null,buf:null,floor:.01,timer:null};
@@ -1640,7 +1640,7 @@ async function enableMic(){
     const st=await navigator.mediaDevices.getUserMedia({audio:{echoCancellation:true,noiseSuppression:true,autoGainControl:true}});
     const an=actx.createAnalyser();an.fftSize=1024;actx.createMediaStreamSource(st).connect(an);
     Object.assign(mic,{on:true,an,buf:new Uint8Array(an.fftSize)});
-    S.mic=true;S.micBlocked=false;if(E.turn&&E.turnItem)listen(E.turnItem);
+    S.mic=true;S.micBlocked=false;if(E.playing)live.start();if(E.turn&&E.turnItem)listen(E.turnItem);
     toast(SR?'الميكروفون شغال. قولي جملتك وهتشوفي كلامك بيتعلّم، ولما تخلصي هيكمّل لوحده':'الميكروفون شغال. قولي جملتك، ولما تسكتي هيكمّل لوحده',3200);return true;
   }catch(e){
     S.mic=false;S.micBlocked=true;if(E.turn&&E.turnItem)H.turn(E.turnItem,true);
@@ -1660,32 +1660,21 @@ function listen(it){
   const idx=S.items.indexOf(it);
   const target=(it.voice||it.text).split(/\s+/).map(normAr);
   let trace={hit:[],pos:0},heardWords=false;
-  // live transcript (Egyptian Arabic) traced onto the line; ends the turn when she reaches the last word
-  if(SR&&!mic.recBlocked){
-    try{
-      const rec=new SR();rec.lang=mic.lang||'ar-EG';rec.continuous=true;rec.interimResults=true;rec.maxAlternatives=1;
-      let base='',cur='';
-      rec.onresult=e=>{
-        cur='';for(let r=0;r<e.results.length;r++)cur+=' '+e.results[r][0].transcript;
-        const a=align(target,arWords(base+' '+cur));
-        lastVoice=performance.now();if(!started){started=true;H.heard()}
-        if(a.pos<trace.pos)return; // never move backwards
-        trace=a;heardWords=true;paintTrace(idx,a);H.progress(a);
-        if(a.pos>=target.length)setTimeout(()=>{if(mic.rec===rec){stopListen();finishTurn()}},350);
-      };
-      rec.onerror=e=>{
-        if(e.error==='language-not-supported'&&(mic.lang||'ar-EG')!=='ar-SA'){mic.lang='ar-SA';return} // restarts in onend with the new language
-        if(/not-allowed|service-not-allowed/.test(e.error))mic.recBlocked=true;
-        if(SR_ERR[e.error]&&!mic.warned){mic.warned=true;toast(SR_ERR[e.error],5000)}
-      };
-      rec.onend=()=>{base+=' '+cur;cur='';if(mic.rec===rec&&!mic.recBlocked)try{rec.start()}catch(_){}};
-      mic.rec=rec;rec.start();
-    }catch(_){mic.rec=null}
+  // speech recognition is already running for the whole scene (no warm-up gap); from now on its words count for this line
+  if(live.rec){
+    live.beginTurn();
+    live.onUpdate=text=>{
+      const a=align(target,arWords(text));
+      lastVoice=performance.now();if(!started){started=true;H.heard()}
+      if(a.pos<trace.pos)return; // never move backwards
+      trace=a;heardWords=true;paintTrace(idx,a);H.progress(a);
+      if(a.pos>=target.length)setTimeout(()=>{if(live.onUpdate&&mic.timer){stopListen();finishTurn()}},350);
+    };
   }
   // don't accept "done" before she has plausibly said most of the line (actors take pauses mid-line)
   const minVoiced=Math.min(2600,it.text.split(/\s+/).length*160/S.speed);
   mic.timer=setInterval(()=>{
-    const now=performance.now();if(now-t0<300)return; // ignore the partner's tail / echo
+    const now=performance.now();if(now-t0<120)return; // skip only the partner's last echo
     const r=micRms();
     if(!started)mic.floor=mic.floor*.96+Math.min(r,.05)*.04;
     if(actx&&actx.state==='suspended')actx.resume().catch(()=>{});
@@ -1701,7 +1690,40 @@ function listen(it){
     }else if(quiet>S.silence*1000&&voiced>=minVoiced){stopListen();finishTurn()}
   },50);
 }
-function stopListen(){if(mic.timer){clearInterval(mic.timer);mic.timer=null}if(mic.rec){const r=mic.rec;mic.rec=null;r.onend=null;try{r.abort()}catch(_){}}H.level(0)}
+function stopListen(){if(mic.timer){clearInterval(mic.timer);mic.timer=null}live.onUpdate=null;H.level(0)}
+/* One speech recognizer for the whole scene: started on ▶ and kept alive (Chrome ends sessions after
+   silences, so it restarts itself). It hears everything, but only words that arrive after her turn
+   begins are used, so her first words are never lost to a warm-up delay. */
+const live={rec:null,results:null,from:0,carry:'',inTurn:false,onUpdate:null,
+  text(){let t=this.carry;const R=this.results;if(R)for(let r=this.from;r<R.length;r++)t+=' '+R[r][0].transcript;return t},
+  beginTurn(){
+    this.inTurn=true;this.carry='';
+    // start from the result still being written (it may already hold her first words), skip finished ones
+    const R=this.results;let k=R?R.length:0;
+    if(R)for(let r=0;r<R.length;r++)if(!R[r].isFinal){k=r;break}
+    this.from=k;
+  },
+  start(){
+    if(this.rec||!SR||mic.recBlocked||!S.mic)return;
+    try{
+      const rec=new SR();rec.lang=mic.lang||'ar-EG';rec.continuous=true;rec.interimResults=true;rec.maxAlternatives=1;
+      rec.onresult=e=>{this.results=e.results;if(this.onUpdate)this.onUpdate(this.text())};
+      rec.onerror=e=>{
+        if(e.error==='language-not-supported'&&(mic.lang||'ar-EG')!=='ar-SA'){mic.lang='ar-SA';rec.lang='ar-SA';return}
+        if(/not-allowed|service-not-allowed/.test(e.error))mic.recBlocked=true;
+        if(SR_ERR[e.error]&&!mic.warned){mic.warned=true;toast(SR_ERR[e.error],5000)}
+      };
+      rec.onend=()=>{
+        // keep what she already said in this turn, then restart a fresh session
+        if(this.onUpdate)this.carry=this.text();
+        this.results=null;this.from=0;
+        if(this.rec===rec&&!mic.recBlocked&&E.playing){try{rec.lang=mic.lang||'ar-EG';rec.start()}catch(_){this.rec=null}}else if(this.rec===rec)this.rec=null;
+      };
+      this.rec=rec;rec.start();
+    }catch(_){this.rec=null}
+  },
+  stop(){const r=this.rec;this.rec=null;this.results=null;this.onUpdate=null;if(r){r.onend=null;try{r.abort()}catch(_){}}}
+};
 function micReason(code){
   return ({
     NotAllowedError:'الإذن بالميكروفون مرفوض. من إعدادات المتصفح اسمحي بالميكروفون للموقع ده، وبعدين دوسي 🎙 تاني.',
@@ -1736,7 +1758,7 @@ async function micTest(out){
   },150);
 }
 async function toggleMic(){
-  if(S.mic){S.mic=false;stopListen();toast('الميكروفون اتقفل. دوسي «خلصت» بعد كل جملة');}
+  if(S.mic){S.mic=false;stopListen();live.stop();toast('الميكروفون اتقفل. دوسي «خلصت» بعد كل جملة');}
   else await enableMic();
   syncMicUI();
 }
@@ -1754,12 +1776,13 @@ function myTurn(it){
 }
 function finishTurn(){stopListen();setTimeout(clearTrace,600);if(!E.turn)return;const r=E.turn;E.turn=null;H.turn(null,false);r()}
 function stop(){
+  live.stop();
   stopListen();runTok++;E.playing=false;E.turn=null;
   if(hasTTS)try{speechSynthesis.cancel()}catch(e){}
   if(audioEl){try{audioEl.pause()}catch(e){}if(audioEl.onended){const f=audioEl.onended;audioEl.onended=null;f()}}
   H.turn(null,false);H.speaking(null,false);H.state();
 }
-function play(){unlock();voiceNote();if(S.mode==='partner'&&!S.mic&&!mic.tried){mic.tried=true;enableMic().then(syncMicUI)}if(E.ended){S.i=secRange().start}$('#donebar').hidden=true;run()}
+function play(){unlock();voiceNote();setTimeout(()=>live.start(),0);if(S.mode==='partner'&&!S.mic&&!mic.tried){mic.tried=true;enableMic().then(syncMicUI)}if(E.ended){S.i=secRange().start}$('#donebar').hidden=true;run()}
 function toggle(){E.playing?stop():play()}
 
 /* hooks dispatch by mode */
@@ -2150,6 +2173,15 @@ $('#p-restart').addEventListener('click',()=>{stop();S.i=secRange().start;enterP
 $('#p-mic').addEventListener('click',toggleMic);
 $('#mic-test').addEventListener('click',()=>micTest($('#mic-test-out')));
 $('#subs').addEventListener('click',e=>{if(e.target.id==='p-mictest')micTest($('#p-mictest-out'))});
+// tap any line in the V10 script to jump there (keeps playing if it was playing)
+$('#subs').addEventListener('click',e=>{
+  if(e.target.closest('.blank,#p-mictest,.scene-head,.note'))return;
+  const el=e.target.closest('[data-i]');if(!el)return;
+  const i=+el.dataset.i,wasPlaying=E.playing;stop();S.i=i;pCursor(i);
+  const it=S.items[i];setFace(it&&it.t==='line'&&it.char!==S.role?it.char:firstOther(i));
+  $('#p-state').textContent='جاهز';$('#p-state').className='state-pill';
+  if(wasPlaying)play();
+});
 $('#p-subs').addEventListener('click',()=>{S.subs=!S.subs;$('#subs').classList.toggle('nosubs',!S.subs);$('#p-subs').setAttribute('aria-pressed',String(S.subs));$('#p-subs').style.opacity=S.subs?1:.5;toast(S.subs?'نص الشخصية ظاهر':'نص الشخصية مخفي، ركزي في عينيه')});
 
 /* ---------- next ---------- */
