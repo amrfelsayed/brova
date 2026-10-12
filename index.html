@@ -307,6 +307,8 @@ button.chipx.to{border:1px dashed var(--line);background:var(--card);cursor:poin
 @keyframes sway{0%,100%{transform:rotate(-.8deg)}50%{transform:rotate(.8deg)}}
 .who-row{display:flex;justify-content:center;align-items:center;gap:10px;margin-top:6px}
 .who-row b{font-family:var(--f-display);font-size:20px}
+.heard{margin:4px 18px 0;font-size:12px;color:var(--stage-muted);text-align:center;font-family:var(--f-body);direction:rtl}
+button.state-pill{border:0;font-family:inherit;cursor:pointer}
 .state-pill{font-size:12px;padding:3px 10px;border-radius:999px;background:var(--stage-2);color:var(--stage-muted)}
 .state-pill.on{background:#FFE14D;color:#1A1606;font-weight:600}
 .subs{margin:10px 18px 0;min-height:92px;border-radius:16px;background:var(--stage-2);padding:12px 14px;font-family:var(--f-script);font-size:18px;line-height:1.7;text-align:center;display:flex;flex-direction:column;justify-content:center;gap:4px}
@@ -614,7 +616,8 @@ button.chipx.to{border:1px dashed var(--line);background:var(--card);cursor:poin
               </svg>
               <button type="button" class="pip side" id="pip" aria-label="الكاميرا: شوفي نفسك"><video id="selfcam" autoplay playsinline muted></video><span id="pip-label" hidden></span></button>
             </div>
-            <div class="who-row"><b id="p-name"></b><span class="state-pill" id="p-state">جاهز</span></div>
+            <div class="who-row"><b id="p-name"></b><button type="button" class="state-pill" id="p-state" title="دوسي تشوفي الميكروفون سامع إيه">جاهز</button></div>
+            <div class="heard" id="heard" hidden></div>
             <div class="subs" id="subs"><span class="small">دوسي ▶ والشخصية هتبدأ المشهد</span></div>
             <button type="button" class="done-turn" id="p-done" hidden>خلصت جملتي ←</button>
             <div class="stage-ctrl">
@@ -1621,7 +1624,7 @@ async function run(){
     }else if(it.char===S.role){await myTurn(it)}
     else{
       await H.before(it);if(tok!==runTok)return;
-      H.speaking(it,true);await speak(it.text,it.char,it);if(tok!==runTok)return;H.speaking(it,false);
+      live.markNow();H.speaking(it,true);await speak(it.text,it.char,it);if(tok!==runTok)return;H.speaking(it,false);
     }
     if(tok!==runTok)return;
     if(it.t==='line'&&S.pause>0)await wait(S.pause*1000);
@@ -1663,13 +1666,15 @@ function listen(it){
   // speech recognition is already running for the whole scene (no warm-up gap); from now on its words count for this line
   if(live.rec){
     live.beginTurn();
-    live.onUpdate=text=>{
-      const a=align(target,arWords(text));
+    live.onUpdate=words=>{
+      const a=align(target,words);
       lastVoice=performance.now();if(!started){started=true;H.heard()}
       if(a.pos<trace.pos)return; // never move backwards
       trace=a;heardWords=true;paintTrace(idx,a);H.progress(a);
       if(a.pos>=target.length)setTimeout(()=>{if(live.onUpdate&&mic.timer){stopListen();finishTurn()}},350);
     };
+    // words she already said while the partner was finishing count straight away
+    const already=live.words().slice(live.mark);if(already.length)live.onUpdate(already);
   }
   // don't accept "done" before she has plausibly said most of the line (actors take pauses mid-line)
   const minVoiced=Math.min(2600,it.text.split(/\s+/).length*160/S.speed);
@@ -1694,36 +1699,36 @@ function stopListen(){if(mic.timer){clearInterval(mic.timer);mic.timer=null}live
 /* One speech recognizer for the whole scene: started on ▶ and kept alive (Chrome ends sessions after
    silences, so it restarts itself). It hears everything, but only words that arrive after her turn
    begins are used, so her first words are never lost to a warm-up delay. */
-const live={rec:null,results:null,from:0,carry:'',inTurn:false,onUpdate:null,
-  text(){let t=this.carry;const R=this.results;if(R)for(let r=this.from;r<R.length;r++)t+=' '+R[r][0].transcript;return t},
-  beginTurn(){
-    this.inTurn=true;this.carry='';
-    // start from the result still being written (it may already hold her first words), skip finished ones
-    const R=this.results;let k=R?R.length:0;
-    if(R)for(let r=0;r<R.length;r++)if(!R[r].isFinal){k=r;break}
-    this.from=k;
-  },
+const live={rec:null,results:null,hist:'',mark:0,onUpdate:null,
+  // everything heard since ▶, across Chrome's session restarts
+  full(){let t=this.hist;const R=this.results;if(R)for(let r=0;r<R.length;r++)t+=' '+R[r][0].transcript;return t},
+  words(){return arWords(this.full())},
+  // called when a partner line starts: her answer is searched from here on, so words she says
+  // while the partner is still talking are kept (they arrive glued to the partner's words)
+  markNow(){this.mark=this.words().length},
+  beginTurn(){if(this.mark>this.words().length)this.mark=0},
   start(){
     if(this.rec||!SR||mic.recBlocked||!S.mic)return;
     try{
       const rec=new SR();rec.lang=mic.lang||'ar-EG';rec.continuous=true;rec.interimResults=true;rec.maxAlternatives=1;
-      rec.onresult=e=>{this.results=e.results;if(this.onUpdate)this.onUpdate(this.text())};
+      rec.onresult=e=>{this.results=e.results;showHeard();if(this.onUpdate)this.onUpdate(this.words().slice(this.mark))};
       rec.onerror=e=>{
         if(e.error==='language-not-supported'&&(mic.lang||'ar-EG')!=='ar-SA'){mic.lang='ar-SA';rec.lang='ar-SA';return}
         if(/not-allowed|service-not-allowed/.test(e.error))mic.recBlocked=true;
         if(SR_ERR[e.error]&&!mic.warned){mic.warned=true;toast(SR_ERR[e.error],5000)}
       };
       rec.onend=()=>{
-        // keep what she already said in this turn, then restart a fresh session
-        if(this.onUpdate)this.carry=this.text();
-        this.results=null;this.from=0;
+        this.hist=this.full();this.results=null;
         if(this.rec===rec&&!mic.recBlocked&&E.playing){try{rec.lang=mic.lang||'ar-EG';rec.start()}catch(_){this.rec=null}}else if(this.rec===rec)this.rec=null;
       };
       this.rec=rec;rec.start();
     }catch(_){this.rec=null}
   },
-  stop(){const r=this.rec;this.rec=null;this.results=null;this.onUpdate=null;if(r){r.onend=null;try{r.abort()}catch(_){}}}
+  stop(){const r=this.rec;this.rec=null;this.results=null;this.hist='';this.mark=0;this.onUpdate=null;if(r){r.onend=null;try{r.abort()}catch(_){}}}
 };
+// diagnostic: tap the status pill in V10 to see the raw words Chrome is hearing
+function showHeard(){const h=$('#heard');if(!h||h.hidden)return;const w=live.words();h.textContent='سامع: «'+(w.slice(-14).join(' ')||'…')+'»'}
+
 function micReason(code){
   return ({
     NotAllowedError:'الإذن بالميكروفون مرفوض. من إعدادات المتصفح اسمحي بالميكروفون للموقع ده، وبعدين دوسي 🎙 تاني.',
@@ -2171,6 +2176,7 @@ $('#p-done').addEventListener('click',finishTurn);
 $('#subs').addEventListener('click',e=>{const bl=e.target.closest('.blank');if(bl)bl.classList.toggle('show')});
 $('#p-restart').addEventListener('click',()=>{stop();S.i=secRange().start;enterPartner();play()});
 $('#p-mic').addEventListener('click',toggleMic);
+$('#p-state').addEventListener('click',()=>{const h=$('#heard');h.hidden=!h.hidden;if(!h.hidden){h.textContent=live.rec?'سامع: «…»':'الميكروفون لسه مش شغال، دوسي ▶';showHeard()}});
 $('#mic-test').addEventListener('click',()=>micTest($('#mic-test-out')));
 $('#subs').addEventListener('click',e=>{if(e.target.id==='p-mictest')micTest($('#p-mictest-out'))});
 // tap any line in the V10 script to jump there (keeps playing if it was playing)
