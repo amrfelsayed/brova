@@ -78,6 +78,8 @@ button{font:inherit;color:inherit;cursor:pointer}
 
 /* bottom nav */
 .nav{display:flex;border-top:1px solid var(--line);padding:6px 6px 10px;background:var(--card)}
+.gnav{position:absolute;left:0;right:0;bottom:0;height:62px;z-index:20}
+.screens.with-nav .screen{bottom:62px}
 .nav button{flex:1;border:0;background:none;display:flex;flex-direction:column;align-items:center;gap:2px;font-size:11px;color:var(--muted);padding:4px}
 .nav button svg{width:22px;height:22px}
 .nav button[aria-current="page"]{color:var(--ink);font-weight:600}
@@ -91,7 +93,12 @@ button{font:inherit;color:inherit;cursor:pointer}
 .days span{width:24px;height:24px;border-radius:50%;display:grid;place-items:center;font-size:10px;background:var(--card);color:var(--muted)}
 .days span.on{background:var(--hi);color:var(--on-hi);font-weight:700}
 .days span.today{box-shadow:0 0 0 2px var(--ink)}
-.new-cta{border:0;text-align:start;background:var(--ink);color:var(--card);border-radius:20px;padding:18px;display:flex;gap:14px;align-items:center}
+#s-project .new-cta{padding:10px 12px;border-radius:14px;gap:10px;border:0;text-align:start;background:var(--ink);color:var(--card);display:flex;align-items:center}
+#s-project .new-cta .plus{width:32px;height:32px;border-radius:10px}
+#s-project .new-cta .plus svg{width:18px;height:18px}
+#s-project .new-cta b{font-size:15px;display:inline;font-family:var(--f-display)}
+#s-project .new-cta small{font-size:12px;opacity:.75;margin-inline-start:6px}
+.new-cta-old{border:0;text-align:start;background:var(--ink);color:var(--card);border-radius:20px;padding:18px;display:flex;gap:14px;align-items:center}
 .new-cta .plus{width:46px;height:46px;border-radius:14px;background:var(--hi);color:var(--on-hi);display:grid;place-items:center;flex:none}
 .new-cta b{font-family:var(--f-display);font-size:20px;display:block}
 .new-cta small{opacity:.75;font-size:12px}
@@ -252,6 +259,29 @@ textarea{width:100%;min-height:300px;border:1px solid var(--line);border-radius:
 .meter i{display:block;height:100%;background:#fff;transform-origin:right;transform:scaleX(.04);transition:transform .08s linear}
 .mic-out{display:block;font-size:12px;line-height:1.6;color:inherit;opacity:.85;font-family:var(--f-body)}
 .linkbtn{background:none;border:0;color:#FFE14D;font-weight:600;font-size:13px;text-decoration:underline;padding:4px;font-family:var(--f-body)}
+.acc-card{display:flex;align-items:center;gap:12px;padding:6px 0 4px}
+.avatar{width:52px;height:52px;border-radius:50%;background:var(--hi);color:var(--on-hi);display:grid;place-items:center;font-size:22px;font-weight:700}
+.acc-card b{display:block;font-size:18px}.acc-card small{color:var(--muted);font-size:13px}
+.acc-list{display:flex;flex-direction:column;border:1px solid var(--line);border-radius:14px;overflow:hidden}
+.acc-row{display:flex;flex-direction:column;align-items:flex-start;gap:2px;padding:11px 14px;border:0;border-bottom:1px solid var(--line);background:var(--card);text-align:start;font:inherit;color:inherit}
+.acc-row:last-child{border-bottom:0}
+.acc-row small{color:var(--muted);font-size:12px}
+.empty{border:1.5px dashed var(--line);border-radius:14px;padding:14px;text-align:center;display:flex;flex-direction:column;gap:4px}
+.empty small{color:var(--muted);font-size:12.5px}
+.take-row{display:flex;align-items:center;justify-content:space-between;gap:10px;border:1px solid var(--line);border-radius:14px;padding:10px 12px}
+.take-row b{display:block;font-size:14px}.take-row small{color:var(--muted);font-size:12px}
+.take-row .btn{padding:8px 12px;font-size:13px;flex:none}
+.take-btns{display:flex;gap:6px}
+.take-row .del{padding:8px 10px}
+.take-player{position:absolute;inset:0;z-index:80;background:#05060D;display:flex;flex-direction:column}
+.tp-head{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;color:#fff}
+.tp-head .icon-btn{background:#22243A;color:#fff}
+.take-player video{flex:1;min-height:0;width:100%;background:#000}
+.date-row{display:flex;gap:12px;align-items:stretch;border:1px solid var(--line);background:var(--card);border-radius:16px;padding:12px;text-align:start;font:inherit;color:inherit}
+.date-row.next{border-color:var(--hi);box-shadow:0 0 0 1.5px var(--hi) inset}
+.d-when{width:64px;flex:none;display:flex;flex-direction:column;align-items:center;justify-content:center;background:var(--soft);border-radius:12px;padding:6px}
+.d-when b{font-size:14px}.d-when small{font-size:11px;color:var(--muted)}
+.d-what{flex:1;min-width:0}.d-what b{display:block;font-size:14px}.d-what small{color:var(--muted);font-size:12px;display:block}
 .chipx{font-size:10.5px;font-weight:600;padding:1px 7px;border-radius:999px;background:var(--soft);color:var(--muted)}
 .chipx.q{background:transparent;border:1px solid var(--line)}
 button.chipx.to.low{border-color:var(--cue);color:var(--cue)}
@@ -328,7 +358,16 @@ button.state-pill{border:0;font-family:inherit;cursor:pointer}
 .ps-line.mine .hl{color:#1A1606;background:linear-gradient(transparent 14%,#FFE14D 14%,#FFE14D 88%,transparent 88%)}
 .ps-dir{font-family:var(--f-script);font-size:16px;color:var(--stage-muted);text-align:center;margin:6px 0}
 .subs.nosubs .ps-line:not(.mine) .ps-text{filter:blur(7px)}
-.stage-ctrl{margin-top:auto;display:flex;align-items:center;justify-content:space-between;padding:12px 18px 16px;gap:8px}
+.stage-ctrl{margin-top:auto;display:flex;align-items:center;justify-content:space-between;padding:10px 16px 14px;gap:8px}
+.ctrl-side{display:flex;align-items:center;gap:8px;flex:1}
+.ctrl-side:last-child{justify-content:flex-end}
+.ctrl-main{display:flex;align-items:center;gap:14px}
+.stage-ctrl .rec{width:54px;height:54px;border-radius:50%;border:3px solid var(--stage-fg);background:transparent;display:grid;place-items:center;padding:0}
+.stage-ctrl .rec i{width:22px;height:22px;border-radius:50%;background:#E5484D;transition:all .2s}
+.stage-ctrl .rec.on{border-color:#E5484D}
+.stage-ctrl .rec.on i{width:18px;height:18px;border-radius:4px}
+.rec-time{font-family:var(--f-mono);font-size:12px;color:#fff;background:#E5484D;border-radius:999px;padding:3px 9px}
+.pip.side.recording{box-shadow:0 0 0 2px #E5484D}
 .stage-ctrl .icon-btn{background:var(--stage-2);color:var(--stage-fg);width:46px;height:46px;border-radius:50%}
 .stage-ctrl .play{width:64px;height:64px;border-radius:50%;border:0;background:var(--stage-fg);color:var(--stage);display:grid;place-items:center}
 .stage-ctrl .play svg{width:26px;height:26px}
@@ -422,7 +461,7 @@ button.state-pill{border:0;font-family:inherit;cursor:pointer}
         <div class="notch"><i></i></div>
         <div class="statusbar"><span>٩:٤١</span><span dir="ltr"><b class="vid" id="vid">V01</b> 5G ▮▮▮</span></div>
         <div class="vid-tag" id="vid-tag" dir="ltr">V01</div>
-        <div class="screens">
+        <div class="screens with-nav" id="screens">
 
           <!-- HOME -->
           <div class="screen" id="s-home">
@@ -433,7 +472,6 @@ button.state-pill{border:0;font-family:inherit;cursor:pointer}
               <div class="label">مشاريعك</div>
               <div class="lib" id="projects"></div>
             </div>
-            <nav class="nav" data-nav="home"></nav>
           </div>
 
           <!-- PROJECT (its scenes) -->
@@ -442,7 +480,7 @@ button.state-pill{border:0;font-family:inherit;cursor:pointer}
             <div class="scr-body">
               <button type="button" class="new-cta" data-go="import">
                 <span class="plus"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span>
-                <span><b>سكريبت جديد</b><small>مشهد جديد للمشروع ده: صوّري الورق، ملف Word أو PDF، أو من واتساب</small></span>
+                <span><b>سكريبت جديد</b><small>ورق، Word أو PDF، واتساب</small></span>
               </button>
               <div class="label">المشاهد</div>
               <div class="lib" id="scenes"></div>
@@ -548,7 +586,7 @@ button.state-pill{border:0;font-family:inherit;cursor:pointer}
             <div class="scr-body">
               <div class="field"><span class="label">إنتي مين؟</span><div class="chips" id="role-chips"></div></div>
               <div class="ai-read" id="ai-status" aria-live="polite" hidden></div>
-              <div class="field preview-field"><span class="label">أول المشهد، اتأكدي إن القراية مظبوطة</span><div class="preview" id="preview"></div></div>
+              <div class="field preview-field"><div class="preview" id="preview"></div></div>
               <div class="mode-btns">
                 <button type="button" class="btn primary" id="go-reader"><span>Scene Partner<small>يقرا الشخصيات التانية ويقف عند دورك</small></span><span>←</span></button>
                 <button type="button" class="btn ghost" id="go-partner"><span>AI Partner<small>شخصية تبصيلها وتتفاعل معاكي</small></span><span>←</span></button>
@@ -621,10 +659,44 @@ button.state-pill{border:0;font-family:inherit;cursor:pointer}
             <div class="subs" id="subs"><span class="small">دوسي ▶ والشخصية هتبدأ المشهد</span></div>
             <button type="button" class="done-turn" id="p-done" hidden>خلصت جملتي ←</button>
             <div class="stage-ctrl">
-              <button type="button" class="icon-btn" id="p-restart" aria-label="من الأول"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 12a8 8 0 1 0 2.5-5.8"/><path d="M4 4v4h4"/></svg></button>
-              <button type="button" class="play" id="p-play" aria-label="تشغيل"></button>
-              <button type="button" class="icon-btn" id="p-mic" aria-label="الميكروفون" aria-pressed="false" style="opacity:.55"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/></svg></button>
-              <button type="button" class="icon-btn" id="p-subs" aria-label="إظهار النص" aria-pressed="true"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="M7 11h4M13 11h4M7 15h6"/></svg></button>
+              <div class="ctrl-side"><button type="button" class="icon-btn" id="p-subs" aria-label="إظهار النص" aria-pressed="true"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="M7 11h4M13 11h4M7 15h6"/></svg></button><button type="button" class="icon-btn" id="p-mic" aria-label="الميكروفون" aria-pressed="false" style="opacity:.55"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/></svg></button></div>
+              <div class="ctrl-main"><button type="button" class="play" id="p-play" aria-label="تشغيل"></button><button type="button" class="rec" id="p-rec" aria-label="سجّلي تيك"><i></i></button></div>
+              <div class="ctrl-side"><button type="button" class="icon-btn" id="p-restart" aria-label="من الأول"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 12a8 8 0 1 0 2.5-5.8"/><path d="M4 4v4h4"/></svg></button><span class="rec-time" id="rec-time" hidden>٠:٠٠</span></div>
+            </div>
+          </div>
+
+          <!-- TAKES (V14) -->
+          <div class="screen" id="s-takes" hidden>
+            <div class="scr-head"><div class="grow"><h3>تسجيلاتي</h3><div class="sub">التيكات والسيلف تيب لكل مشهد</div></div></div>
+            <div class="scr-body" id="takes-body"></div>
+          </div>
+
+          <div class="take-player" id="take-player" hidden>
+            <div class="tp-head"><b id="take-title"></b><button type="button" class="icon-btn" id="take-close" aria-label="قفلي">✕</button></div>
+            <video id="take-video" controls playsinline></video>
+          </div>
+
+          <!-- DATES (V15) -->
+          <div class="screen" id="s-dates" hidden>
+            <div class="scr-head"><div class="grow"><h3>مواعيد</h3><div class="sub">الأوديشنات وأيام التصوير</div></div></div>
+            <div class="scr-body" id="dates-body"></div>
+          </div>
+
+          <!-- ACCOUNT (V16) -->
+          <div class="screen" id="s-account" hidden>
+            <div class="scr-head"><div class="grow"><h3>الحساب</h3></div></div>
+            <div class="scr-body">
+              <div class="acc-card"><span class="avatar">د</span><span><b>دينا</b><small>ممثلة</small></span></div>
+              <div class="label">البروفة</div>
+              <div class="acc-list">
+                <button type="button" class="acc-row" id="acc-mictest"><span>🎙 اختبري الميكروفون</span><small class="mic-out" id="acc-mictest-out">اتأكدي إنه سامعك قبل البروفة</small></button>
+                <div class="acc-row"><span>🔊 الأصوات</span><small>أصوات مصرية لكل شخصية، وصوت الموبايل للمشاهد اللي بتلصقيها</small></div>
+                <div class="acc-row"><span>🔒 الخصوصية</span><small>ملاحظاتك وهدفك والجزء اللي بتذاكريه محفوظين على موبايلك بس</small></div>
+              </div>
+              <div class="label">بروفة</div>
+              <div class="acc-list">
+                <div class="acc-row"><span>ℹ️ النسخة</span><small>نسخة تجريبية v0.1</small></div>
+              </div>
             </div>
           </div>
 
@@ -633,9 +705,9 @@ button.state-pill{border:0;font-family:inherit;cursor:pointer}
             <div class="scr-head"><div class="grow"><h3>الجاي في بروفة</h3><div class="sub">من طلبك الأولاني، اختاري اللي يهمك</div></div></div>
             <div class="scr-body" id="feats"></div>
             <div style="padding:0 18px 12px"><button type="button" class="btn primary" id="copy-feats" style="width:100%">انسخي اختياراتك وابعتيها على واتساب</button><textarea id="copy-fallback" hidden style="min-height:80px;margin-top:8px"></textarea></div>
-            <nav class="nav" data-nav="next"></nav>
           </div>
 
+          <nav class="nav gnav" id="gnav"></nav>
         </div>
         <div class="toast" id="toast" hidden></div>
       </div>
@@ -784,6 +856,9 @@ const ICON={
   pause:'<svg viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="5" width="4" height="14" rx="1"/><rect x="14" y="5" width="4" height="14" rx="1"/></svg>',
   home:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 3h9l4 4v14H6z"/><path d="M9 11h6M9 15h6"/></svg>',
   face:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="10" r="6"/><path d="M6 21c1.5-3 3.5-4 6-4s4.5 1 6 4"/></svg>',
+  rec:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="3.5" fill="currentColor"/></svg>',
+  cal:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><rect x="4" y="5.5" width="16" height="14.5" rx="2.5"/><path d="M4 10h16M8.5 3.5v4M15.5 3.5v4"/></svg>',
+  user:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="8.5" r="4"/><path d="M4.5 20.5c1.4-3.8 4.2-5.5 7.5-5.5s6.1 1.7 7.5 5.5"/></svg>',
   next:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3l2.6 5.6 6.1.7-4.5 4.2 1.2 6L12 16.6 6.6 19.5l1.2-6-4.5-4.2 6.1-.7z"/></svg>'
 };
 $$('.back').forEach(b=>b.innerHTML=ICON.back);
@@ -1287,9 +1362,15 @@ function align(target,spoken){
   const hit=target.map(t=>false);let pos=0;
   const skipEmpty=()=>{while(pos<target.length&&!target[pos]){hit[pos]=true;pos++}};
   skipEmpty();
-  for(const w of spoken){
+  const ok=(w,k)=>target[k]&&wordSim(w,target[k])>=(target[k].length<=4?.74:.7);
+  for(let j=0;j<spoken.length;j++){
+    const w=spoken[j];let moved=false;
     for(let k=pos;k<Math.min(target.length,pos+4);k++){
-      if(target[k]&&wordSim(w,target[k])>=(target[k].length<=4?.74:.7)){hit[k]=true;pos=k+1;skipEmpty();break}
+      if(ok(w,k)){hit[k]=true;pos=k+1;skipEmpty();moved=true;break}
+    }
+    // re-sync: if several words were mis-heard, jump ahead when two spoken words in a row match the line
+    if(!moved)for(let k=pos+4;k<target.length-1;k++){
+      if(ok(w,k)&&j+1<spoken.length&&ok(spoken[j+1],k+1)){hit[k]=true;pos=k+1;skipEmpty();break}
     }
   }
   return {hit,pos};
@@ -1342,23 +1423,31 @@ function renderNote(k){
 }
 
 /* ---------- navigation ---------- */
-const VIEW_IDS={project:'V13',home:'V01',import:'V02',scan:'V03',files:'V04',chat:'V05',paste:'V06',proc:'V07',chars:'V08',reader:'V09',partner:'V10',next:'V11',sheet:'V12'};
+const VIEW_IDS={takes:'V14',dates:'V15',account:'V16',project:'V13',home:'V01',import:'V02',scan:'V03',files:'V04',chat:'V05',paste:'V06',proc:'V07',chars:'V08',reader:'V09',partner:'V10',next:'V11',sheet:'V12'};
+const TAB_OF={home:'home',project:'home',import:'home',scan:'home',files:'home',chat:'home',paste:'home',proc:'home',chars:'home',takes:'takes',dates:'dates',account:'account',next:'account'};
+function syncNav(k){
+  const show=!['reader','partner'].includes(k);
+  $('#gnav').hidden=!show;$('#screens').classList.toggle('with-nav',show);
+  $('#gnav').innerHTML=navHTML(TAB_OF[k]||'home');
+}
 function setViewId(k){const v=VIEW_IDS[k]||'V00';$('#vid').textContent=v;$('#vid-tag').textContent=v;const e=$('#n-eyebrow');if(e&&NOTES[k])e.textContent=v+'، '+NOTES[k].e}
 function show(k){
   $$('.screen').forEach(s=>s.hidden=s.id!=='s-'+k);
-  S.screen=k;renderNote(k);setViewId(k);
+  S.screen=k;renderNote(k);setViewId(k);syncNav(k);
   if(k==='reader'){S.mode='reader';renderReader()}
   if(k==='partner'){S.mode='partner';enterPartner()}
+  if(k==='takes')renderTakes();
+  if(k==='dates')renderDates();
 }
 function go(k,replace){
   if(S.screen==='reader'||S.screen==='partner')stop();
-  if(S.screen==='partner'&&k!=='partner')stopCam();
+  if(S.screen==='partner'&&k!=='partner'){stopTake();stopCam()}
   if(!replace)S.hist.push(S.screen);
   show(k);
 }
 function back(){
   if(S.screen==='reader'||S.screen==='partner')stop();
-  if(S.screen==='partner')stopCam();
+  if(S.screen==='partner'){stopTake();stopCam()}
   closeSheet();
   show(S.hist.pop()||'home');
 }
@@ -1366,13 +1455,14 @@ $$('.back').forEach(b=>b.addEventListener('click',back));
 $$('[data-go]').forEach(b=>b.addEventListener('click',()=>go(b.dataset.go)));
 $$('[data-toast]').forEach(b=>b.addEventListener('click',()=>toast(b.dataset.toast)));
 function navHTML(cur){
-  return [['home','السكريبتات',ICON.home],['partner','AI Partner',ICON.face],['next','الجاي',ICON.next]]
+  return [['home','مشاريعي',ICON.home],['takes','تسجيلاتي',ICON.rec],['dates','مواعيد',ICON.cal],['account','الحساب',ICON.user]]
    .map(([k,t,ic])=>`<button type="button" data-nav-go="${k}" ${k===cur?'aria-current="page"':''}>${ic}${t}</button>`).join('');
 }
 $$('.nav').forEach(n=>{n.innerHTML=navHTML(n.dataset.nav);});
 document.addEventListener('click',e=>{
   const b=e.target.closest('[data-nav-go]');if(!b)return;
   const k=b.dataset.navGo;if(k===S.screen)return;
+  if(REC.rec)stopTake();
   S.hist=[];go(k,true);if(k!=='home')S.hist=['home'];
 });
 let toastT;
@@ -1403,6 +1493,92 @@ function openProject(id){
   go('project');
 }
 renderProjects();
+/* ---------- self-tape takes: recorded in V10, kept on this device (IndexedDB), watched in V14 ---------- */
+const TakeDB={
+  db:null,
+  open(){return this.db?Promise.resolve(this.db):new Promise((res,rej)=>{const r=indexedDB.open('brova',1);r.onupgradeneeded=()=>r.result.createObjectStore('takes',{keyPath:'id'});r.onsuccess=()=>{this.db=r.result;res(this.db)};r.onerror=()=>rej(r.error)})},
+  async all(){const db=await this.open();return new Promise(res=>{const q=db.transaction('takes').objectStore('takes').getAll();q.onsuccess=()=>res(q.result||[]);q.onerror=()=>res([])})},
+  async put(t){const db=await this.open();return new Promise(res=>{const tx=db.transaction('takes','readwrite');tx.objectStore('takes').put(t);tx.oncomplete=()=>res(true);tx.onerror=()=>res(false)})},
+  async del(id){const db=await this.open();return new Promise(res=>{const tx=db.transaction('takes','readwrite');tx.objectStore('takes').delete(id);tx.oncomplete=()=>res(true)})}
+};
+const REC={rec:null,chunks:[],t0:0,timer:null,dest:null};
+const fmtDur=ms=>{const s=Math.round(ms/1000);return ar(Math.floor(s/60))+':'+ar(String(s%60).padStart(2,'0'))};
+async function startTake(){
+  if(REC.rec)return;
+  if(!window.MediaRecorder){toast('المتصفح ده مش بيدعم التسجيل. جربي Chrome أو Safari الجديد.',4000);return}
+  unlock();
+  if(!S.mic||!mic.on){const ok=await enableMic();syncMicUI();if(!ok)return}
+  await startCam();
+  if(!cam.stream){toast('الكاميرا مقفولة، مش هينفع نسجّل. اسمحي بالكاميرا للموقع.',4500);return}
+  if(actx&&actx.state==='suspended')await actx.resume().catch(()=>{});
+  // her camera + one audio track mixing her mic and the partner's voice
+  REC.dest=actx.createMediaStreamDestination();
+  if(mic.src)mic.src.connect(REC.dest);
+  if(partnerNode)partnerNode.connect(REC.dest);
+  const stream=new MediaStream([...cam.stream.getVideoTracks(),...REC.dest.stream.getAudioTracks()]);
+  const type=['video/webm;codecs=vp9,opus','video/webm;codecs=vp8,opus','video/webm','video/mp4'].find(t=>MediaRecorder.isTypeSupported&&MediaRecorder.isTypeSupported(t))||'';
+  try{REC.rec=new MediaRecorder(stream,type?{mimeType:type}:undefined)}catch(e){toast('مش قادر يبدأ التسجيل ('+e.name+')',4000);return}
+  REC.chunks=[];REC.t0=Date.now();
+  REC.rec.ondataavailable=e=>{if(e.data&&e.data.size)REC.chunks.push(e.data)};
+  REC.rec.onstop=saveTake;
+  REC.rec.start(1000);
+  $('#p-rec').classList.add('on');$('#p-rec').setAttribute('aria-label','وقّفي التسجيل');$('#pip').classList.add('recording');
+  const t=$('#rec-time');t.hidden=false;t.textContent='● '+fmtDur(0);
+  REC.timer=setInterval(()=>{t.textContent='● '+fmtDur(Date.now()-REC.t0)},500);
+  if(!E.playing)play(); // the scene plays while she records
+}
+function stopTake(){
+  if(!REC.rec)return;
+  try{REC.rec.stop()}catch(_){}
+  clearInterval(REC.timer);$('#rec-time').hidden=true;
+  $('#p-rec').classList.remove('on');$('#p-rec').setAttribute('aria-label','سجّلي تيك');$('#pip').classList.remove('recording');
+  try{if(mic.src)mic.src.disconnect(REC.dest);if(partnerNode)partnerNode.disconnect(REC.dest)}catch(_){}
+}
+async function saveTake(){
+  const rec=REC.rec;REC.rec=null;
+  const blob=new Blob(REC.chunks,{type:rec&&rec.mimeType||'video/webm'});REC.chunks=[];
+  if(!blob.size){toast('التسجيل طلع فاضي، جربي تاني');return}
+  const all=await TakeDB.all();const n=all.filter(t=>t.scriptId===(S.scriptId||'paste')).length+1;
+  await TakeDB.put({id:'t'+Date.now(),scriptId:S.scriptId||'paste',title:S.title,n,created:Date.now(),dur:Date.now()-REC.t0,mime:blob.type,blob});
+  toast(`اتحفظ تيك ${ar(n)} في «تسجيلاتي»`,3000);
+}
+$('#p-rec').addEventListener('click',()=>REC.rec?stopTake():startTake());
+// V14: only watching what was recorded
+async function renderTakes(){
+  const box=$('#takes-body');let takes=[];
+  try{takes=(await TakeDB.all()).sort((a,b)=>b.created-a.created)}catch(e){}
+  if(!takes.length){box.innerHTML='<div class="empty"><b>لسه مفيش تيكات</b><small>ادخلي على أي مشهد، افتحي الـ AI Partner، ودوسي ⏺ جنب زرار التشغيل. كل تيك هيتحفظ هنا تحت مشهده.</small></div>';return}
+  const groups={};takes.forEach(t=>{(groups[t.scriptId]=groups[t.scriptId]||[]).push(t)});
+  box.innerHTML=Object.entries(groups).map(([sid,list])=>`<div class="label">${esc(list[0].title||sid)}</div>`+list.map(t=>{
+    const d=new Date(t.created);const when=d.toDateString()===new Date().toDateString()?'النهارده':ar(d.getDate())+'/'+ar(d.getMonth()+1);
+    return `<div class="take-row"><span><b>تيك ${ar(t.n)}</b><small>${fmtDur(t.dur)}، ${when} ${ar(d.getHours())}:${ar(String(d.getMinutes()).padStart(2,'0'))}</small></span><span class="take-btns"><button type="button" class="btn ghost" data-watch="${t.id}">▶ شوفي</button><button type="button" class="btn ghost del" data-del="${t.id}">🗑</button></span></div>`;
+  }).join('')).join('');
+}
+document.addEventListener('click',async e=>{
+  const w=e.target.closest('[data-watch]');
+  if(w){const t=(await TakeDB.all()).find(x=>x.id===w.dataset.watch);if(!t)return;const v=$('#take-video');if(v.dataset.url)URL.revokeObjectURL(v.dataset.url);v.dataset.url=URL.createObjectURL(t.blob);v.src=v.dataset.url;$('#take-title').textContent=`${t.title}، تيك ${ar(t.n)}`;$('#take-player').hidden=false;v.play().catch(()=>{});return}
+  const d=e.target.closest('[data-del]');
+  if(d){ // two taps to delete
+    if(d.dataset.sure){await TakeDB.del(d.dataset.del);renderTakes()}
+    else{d.dataset.sure='1';d.textContent='متأكدة؟';setTimeout(()=>{if(d.isConnected){delete d.dataset.sure;d.textContent='🗑'}},3000)}
+  }
+});
+function closePlayer(){const v=$('#take-video');v.pause();$('#take-player').hidden=true}
+$('#take-close').addEventListener('click',closePlayer);
+// V15: auditions and shoot days, nearest first, with how ready she is
+const DAYS={'الأحد':0,'الاثنين':1,'الإثنين':1,'التلات':2,'الثلاثاء':2,'الأربع':3,'الأربعاء':3,'الخميس':4,'الجمعة':5,'السبت':6};
+function renderDates(){
+  const today=new Date().getDay();
+  const rows=PROJECTS.map(p=>{
+    const day=Object.keys(DAYS).find(d=>p.when.includes(d));const diff=day==null?99:(DAYS[day]-today+7)%7||7;
+    const avg=Math.round(p.scenes.reduce((a,x)=>a+x[2],0)/p.scenes.length);
+    return {p,day,diff,avg};
+  }).sort((a,b)=>a.diff-b.diff);
+  $('#dates-body').innerHTML=rows.map((r,k)=>`<button type="button" class="date-row${k===0?' next':''}" data-project="${r.p.id}">
+    <span class="d-when"><b>${esc(r.day||'')}</b><small>${r.diff===1?'بكرة':'بعد '+ar(r.diff)+' أيام'}</small></span>
+    <span class="d-what"><b>${esc(r.p.when.replace(r.day||'','').trim()||r.p.when)}، ${esc(r.p.title)}</b><small>${esc(r.p.kind)}، إنتي: ${esc(r.p.role)}، ${r.p.scenes.length===1?'مشهد واحد':ar(r.p.scenes.length)+' مشاهد'}</small>${pct(r.avg)}</span></button>`).join('');
+}
+$('#acc-mictest').addEventListener('click',()=>micTest($('#acc-mictest-out')));
 document.addEventListener('click',e=>{
   const pj=e.target.closest('[data-project]');if(pj){openProject(pj.dataset.project);return}
   const b=e.target.closest('#scenes [data-script]');if(!b)return;
@@ -1532,14 +1708,14 @@ function pickVoice(){
 /* recorded Egyptian voices (ElevenLabs v4) for the sample scene; other scenes fall back to the device voice */
 const AUDIO=window.BROVA_AUDIO||{};
 const hasRec=it=>!!AUDIO[it.voice||it.text];
-let actx=null,analyser=null,audioEl=null,levelBuf=null;
+let actx=null,analyser=null,audioEl=null,levelBuf=null,partnerNode=null;
 function setupAudio(){
   if(audioEl)return;
   audioEl=new Audio();audioEl.preload='auto';audioEl.playsInline=true;
   try{
     const AC=window.AudioContext||window.webkitAudioContext;
     actx=new AC();analyser=actx.createAnalyser();analyser.fftSize=512;
-    actx.createMediaElementSource(audioEl).connect(analyser);analyser.connect(actx.destination);
+    partnerNode=actx.createMediaElementSource(audioEl);partnerNode.connect(analyser);analyser.connect(actx.destination);
     levelBuf=new Uint8Array(analyser.fftSize);
   }catch(e){actx=null;analyser=null}
 }
@@ -1641,7 +1817,8 @@ async function enableMic(){
   try{
     if(!actx||!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia)throw new Error('unsupported');
     const st=await navigator.mediaDevices.getUserMedia({audio:{echoCancellation:true,noiseSuppression:true,autoGainControl:true}});
-    const an=actx.createAnalyser();an.fftSize=1024;actx.createMediaStreamSource(st).connect(an);
+    const an=actx.createAnalyser();an.fftSize=1024;mic.src=actx.createMediaStreamSource(st);mic.src.connect(an);mic.stream=st;
+    const tr=st.getAudioTracks()[0];if(tr)tr.onended=()=>{mic.on=false;S.mic=false;toast('الميكروفون وقف، بنرجّعه…');setTimeout(()=>enableMic().then(syncMicUI),500)};
     Object.assign(mic,{on:true,an,buf:new Uint8Array(an.fftSize)});
     S.mic=true;S.micBlocked=false;if(E.playing)live.start();if(E.turn&&E.turnItem)listen(E.turnItem);
     toast(SR?'الميكروفون شغال. قولي جملتك وهتشوفي كلامك بيتعلّم، ولما تخلصي هيكمّل لوحده':'الميكروفون شغال. قولي جملتك، ولما تسكتي هيكمّل لوحده',3200);return true;
@@ -1685,7 +1862,7 @@ function listen(it){
     if(actx&&actx.state==='suspended')actx.resume().catch(()=>{});
     const th=Math.max(.012,mic.floor*2.5);
     H.level(Math.min(1,r/(th*2.5)));
-    if(r>th){voiced+=50;lastVoice=now;if(!started&&voiced>=200){started=true;H.heard()}}
+    if(r>th){voiced+=50;lastVoice=now;mic.voicedRecently=true;if(!started&&voiced>=200){started=true;H.heard()}}else if(now-lastVoice>2000)mic.voicedRecently=false;
     const quiet=now-lastVoice;
     if(!started)return;
     if(heardWords){
@@ -1699,35 +1876,49 @@ function stopListen(){if(mic.timer){clearInterval(mic.timer);mic.timer=null}live
 /* One speech recognizer for the whole scene: started on ▶ and kept alive (Chrome ends sessions after
    silences, so it restarts itself). It hears everything, but only words that arrive after her turn
    begins are used, so her first words are never lost to a warm-up delay. */
-const live={rec:null,results:null,hist:'',mark:0,onUpdate:null,
-  // everything heard since ▶, across Chrome's session restarts
+const live={rec:null,want:false,results:null,hist:'',mark:0,onUpdate:null,lastEvent:0,lastErr:'',restarts:0,
   full(){let t=this.hist;const R=this.results;if(R)for(let r=0;r<R.length;r++)t+=' '+R[r][0].transcript;return t},
   words(){return arWords(this.full())},
-  // called when a partner line starts: her answer is searched from here on, so words she says
-  // while the partner is still talking are kept (they arrive glued to the partner's words)
   markNow(){this.mark=this.words().length},
   beginTurn(){if(this.mark>this.words().length)this.mark=0},
-  start(){
-    if(this.rec||!SR||mic.recBlocked||!S.mic)return;
-    try{
-      const rec=new SR();rec.lang=mic.lang||'ar-EG';rec.continuous=true;rec.interimResults=true;rec.maxAlternatives=1;
-      rec.onresult=e=>{this.results=e.results;showHeard();if(this.onUpdate)this.onUpdate(this.words().slice(this.mark))};
-      rec.onerror=e=>{
-        if(e.error==='language-not-supported'&&(mic.lang||'ar-EG')!=='ar-SA'){mic.lang='ar-SA';rec.lang='ar-SA';return}
-        if(/not-allowed|service-not-allowed/.test(e.error))mic.recBlocked=true;
-        if(SR_ERR[e.error]&&!mic.warned){mic.warned=true;toast(SR_ERR[e.error],5000)}
-      };
-      rec.onend=()=>{
-        this.hist=this.full();this.results=null;
-        if(this.rec===rec&&!mic.recBlocked&&E.playing){try{rec.lang=mic.lang||'ar-EG';rec.start()}catch(_){this.rec=null}}else if(this.rec===rec)this.rec=null;
-      };
-      this.rec=rec;rec.start();
-    }catch(_){this.rec=null}
+  // a fresh recognizer every time: Chrome sometimes refuses to restart the same one
+  make(){
+    if(this.rec||!this.want||!SR||mic.recBlocked||!S.mic)return;
+    let rec;try{rec=new SR()}catch(_){return}
+    rec.lang=mic.lang||'ar-EG';rec.continuous=true;rec.interimResults=true;rec.maxAlternatives=1;
+    const seen=()=>{this.lastEvent=performance.now()};
+    rec.onstart=rec.onaudiostart=rec.onspeechstart=seen;
+    rec.onresult=e=>{seen();this.lastErr='';this.results=e.results;showHeard();if(this.onUpdate)this.onUpdate(this.words().slice(this.mark))};
+    rec.onerror=e=>{
+      this.lastErr=e.error;
+      if(e.error==='language-not-supported'&&(mic.lang||'ar-EG')!=='ar-SA'){mic.lang='ar-SA';return}
+      if(/not-allowed|service-not-allowed/.test(e.error)){mic.recBlocked=true;this.want=false}
+      if(SR_ERR[e.error]&&!mic.warned){mic.warned=true;toast(SR_ERR[e.error],5000)}
+      showHeard();
+    };
+    rec.onend=()=>{
+      if(this.rec!==rec)return;
+      this.hist=this.full();this.results=null;this.rec=null;
+      // come back quickly; wait longer after a network error
+      if(this.want)setTimeout(()=>this.make(),this.lastErr==='network'?1200:150);
+    };
+    this.rec=rec;this.lastEvent=performance.now();
+    try{rec.start();this.restarts++}catch(_){this.rec=null;if(this.want)setTimeout(()=>this.make(),400)}
   },
-  stop(){const r=this.rec;this.rec=null;this.results=null;this.hist='';this.mark=0;this.onUpdate=null;if(r){r.onend=null;try{r.abort()}catch(_){}}}
+  start(){this.want=true;this.make()},
+  restart(){const r=this.rec;this.rec=null;if(r){this.hist=this.full();this.results=null;r.onend=null;try{r.abort()}catch(_){}}this.make()},
+  stop(){this.want=false;const r=this.rec;this.rec=null;this.results=null;this.hist='';this.mark=0;this.onUpdate=null;if(r){r.onend=null;try{r.abort()}catch(_){}}}
 };
+// watchdog: while a scene plays with the mic on, recognition must be running and alive
+setInterval(()=>{
+  if(!live.want||!E.playing||!S.mic||mic.recBlocked)return;
+  if(!live.rec){live.make();return}
+  // she is speaking (mic level) but Chrome has sent nothing for a while: it is stuck, replace it
+  if(mic.timer&&performance.now()-live.lastEvent>6000&&mic.voicedRecently)live.restart();
+},1000);
+
 // diagnostic: tap the status pill in V10 to see the raw words Chrome is hearing
-function showHeard(){const h=$('#heard');if(!h||h.hidden)return;const w=live.words();h.textContent='سامع: «'+(w.slice(-14).join(' ')||'…')+'»'}
+function showHeard(){const h=$('#heard');if(!h||h.hidden)return;const w=live.words();h.textContent=(live.rec?'سامع: «'+(w.slice(-14).join(' ')||'…')+'»':'🎙 بيرجّع التعرف على الكلام…')+(live.lastErr?' ('+live.lastErr+')':'')}
 
 function micReason(code){
   return ({
@@ -2128,7 +2319,7 @@ function enterPartner(){
 }
 function renderPartnerScript(){
   const box=$('#subs');box.classList.add('pscript');box.classList.toggle('nosubs',!S.subs);
-  box.innerHTML='<div class="ps-tools"><button type="button" class="linkbtn" id="p-mictest">🎙 اختبري الميكروفون الأول</button><small class="mic-out" id="p-mictest-out"></small></div>'+
+  box.innerHTML=
     S.items.map((it,i)=>{
       if(it.t==='head')return sceneHeaderHTML(false);
       const pre=beatBefore(i),post=noteHTML(i,false),out=outOfRange(i)?' out':'';
@@ -2170,7 +2361,7 @@ function pTurn(it,on){
 function pLevel(v){F.listenLv=v;const r=$('#face-cv').hidden?$('.ring'):$('#face-cv');if(r&&S.mic)r.style.boxShadow=v>0?`0 0 0 ${(4+v*26).toFixed(0)}px rgba(255,225,77,${(.12+v*.3).toFixed(2)})`:''}
 function pHeard(){$('#p-state').textContent='سامعك ✓'}
 function pState(){const b=$('#p-play');b.innerHTML=E.playing?ICON.pause:ICON.play;b.setAttribute('aria-label',E.playing?'إيقاف':'تشغيل')}
-function pDone(){setEmo('soft');$('#p-state').textContent='خلص المشهد';$('#p-state').className='state-pill';toast('برافو 👏 دوسي ▶ تعيدي، أو ↺ من الأول',3000)}
+function pDone(){stopTake();setEmo('soft');$('#p-state').textContent='خلص المشهد';$('#p-state').className='state-pill';toast('برافو 👏 دوسي ▶ تعيدي، أو ↺ من الأول',3000)}
 $('#p-play').addEventListener('click',toggle);
 $('#p-done').addEventListener('click',finishTurn);
 $('#subs').addEventListener('click',e=>{const bl=e.target.closest('.blank');if(bl)bl.classList.toggle('show')});
@@ -2188,7 +2379,7 @@ $('#subs').addEventListener('click',e=>{
   $('#p-state').textContent='جاهز';$('#p-state').className='state-pill';
   if(wasPlaying)play();
 });
-$('#p-subs').addEventListener('click',()=>{S.subs=!S.subs;$('#subs').classList.toggle('nosubs',!S.subs);$('#p-subs').setAttribute('aria-pressed',String(S.subs));$('#p-subs').style.opacity=S.subs?1:.5;toast(S.subs?'نص الشخصية ظاهر':'نص الشخصية مخفي، ركزي في عينيه')});
+$('#p-subs').addEventListener('click',()=>{S.subs=!S.subs;$('#subs').classList.toggle('nosubs',!S.subs);$('#p-subs').setAttribute('aria-pressed',String(S.subs));$('#p-subs').style.opacity=S.subs?1:.5;toast(S.subs?'كلام الشخصية التانية ظاهر':'كلام الشخصية التانية مخفي: اسمعيه وردّي من غير ما تقري',3000)});
 
 /* ---------- next ---------- */
 const FEATS=[
@@ -2217,7 +2408,7 @@ function tab(which){
   const app=which==='app';
   $('#tab-app').setAttribute('aria-selected',String(app));$('#tab-biz').setAttribute('aria-selected',String(!app));
   $('#view-app').hidden=!app;$('#view-biz').hidden=app;
-  if(!app){stop();stopCam()}
+  if(!app){stopTake();stop();stopCam()}
   try{localStorage.setItem('brova-tab',which)}catch(e){}
   window.scrollTo({top:0});
 }
