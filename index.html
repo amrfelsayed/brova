@@ -105,6 +105,51 @@ button{font:inherit;color:inherit;cursor:pointer}
 .lib-item .hit{display:block;margin-top:4px;font-size:12px;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .lib-item .hit mark{background:var(--hi);color:var(--on-hi);border-radius:3px;padding:0 2px}
 .scene-empty{color:var(--muted);font-size:14px;text-align:center;padding:18px 0}
+/* login (V17/V18) + subscription (V19) */
+.auth{justify-content:space-between;padding:28px 22px 22px}
+.auth .logo{font-family:var(--f-hand);font-size:54px;line-height:1;margin:18px 0 6px}
+.auth .auth-tag{color:var(--muted);font-size:15px;margin:0}
+.auth h4{margin:0 0 4px;font-family:var(--f-display);font-size:22px}
+.auth .hint{color:var(--muted);font-size:13px;margin:0}
+.auth-form{display:flex;flex-direction:column;gap:12px}
+.phone-in{display:flex;align-items:center;gap:10px;border:1px solid var(--line);border-radius:14px;padding:0 14px;background:var(--card);direction:ltr}
+.phone-in:focus-within{border-color:var(--ink)}
+.phone-in .cc{font-family:var(--f-mono);font-size:16px;color:var(--muted);padding-inline-end:10px;border-inline-end:1px solid var(--line)}
+.phone-in input{flex:1;min-width:0;border:0;background:transparent;color:var(--ink);font-family:var(--f-mono);font-size:19px;letter-spacing:.06em;padding:14px 0;outline:0}
+.auth .err{color:var(--cue);font-size:13px;margin:0}
+.auth .btn.primary:disabled{opacity:.35}
+.auth .legal{font-size:12px;color:var(--muted);text-align:center;margin:0}
+.auth .legal u{color:var(--ink);text-decoration:none;font-weight:600}
+.otp{position:relative;display:flex;gap:8px;direction:ltr;justify-content:center}
+.otp span{width:44px;height:54px;border:1px solid var(--line);border-radius:12px;display:grid;place-items:center;font-family:var(--f-mono);font-size:24px;background:var(--card)}
+.otp span.cur{border-color:var(--ink);box-shadow:0 0 0 1px var(--ink)}
+.otp input{position:absolute;inset:0;opacity:0;font-size:16px;width:100%;border:0}
+.auth .links{display:flex;justify-content:space-between;font-size:13px}
+.auth .links button{border:0;background:none;color:var(--ink);font:inherit;font-weight:600;padding:0}
+.auth .links button:disabled{color:var(--muted);font-weight:400}
+.trial-chip{align-self:flex-start;border:0;border-radius:999px;padding:6px 12px;background:var(--soft);color:var(--ink);font:inherit;font-size:13px;font-weight:600}
+.trial-chip i{font-style:normal;color:var(--muted);font-weight:400}
+.lib-item.locked{opacity:.62}
+.lib-item .lock{flex:none;font-size:16px}
+.ctrl-main .rec.locked{opacity:.5}
+.new-cta .lock{margin-inline-start:auto;font-size:15px}
+#s-sub .scr-body{gap:16px}
+.pro-hero{background:var(--ink);color:var(--card);border-radius:20px;padding:18px}
+.pro-hero b{font-family:var(--f-display);font-size:24px;display:block}
+.pro-hero .pro-price{font-family:var(--f-display);font-size:34px;font-weight:700;margin-top:8px}
+.pro-hero .pro-price small{font-size:15px;font-weight:500;opacity:.75}
+.pro-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:11px}
+.pro-list li{display:flex;gap:10px;align-items:flex-start;font-size:15px}
+.pro-list li::before{content:"✓";flex:none;width:22px;height:22px;border-radius:50%;background:var(--hi);color:var(--on-hi);display:grid;place-items:center;font-size:13px;font-weight:700}
+.pro-list small{display:block;color:var(--muted);font-size:12px}
+.sub-foot{display:flex;flex-direction:column;gap:10px;padding:0 18px 18px}
+.sub-foot .fine{font-size:12px;color:var(--muted);text-align:center;margin:0}
+.sub-foot .restore{border:0;background:none;color:var(--ink);font:inherit;font-size:13px;font-weight:600}
+.pro-on{border:1px solid var(--line);border-radius:16px;padding:14px;display:flex;flex-direction:column;gap:4px}
+.pro-on b{font-size:16px}.pro-on small{color:var(--muted);font-size:13px}
+.buy-row{display:flex;justify-content:space-between;align-items:baseline;gap:10px;padding:10px 0;border-bottom:1px solid var(--line);font-size:14px}
+.buy-row small{color:var(--muted)}
+.buy-note{font-size:12px;color:var(--muted);margin:0}
 .new-cta-old{border:0;text-align:start;background:var(--ink);color:var(--card);border-radius:20px;padding:18px;display:flex;gap:14px;align-items:center}
 .new-cta .plus{width:46px;height:46px;border-radius:14px;background:var(--hi);color:var(--on-hi);display:grid;place-items:center;flex:none}
 .new-cta b{font-family:var(--f-display);font-size:20px;display:block}
@@ -229,8 +274,12 @@ textarea{width:100%;min-height:300px;border:1px solid var(--line);border-radius:
 .beat::before,.beat::after{content:"";flex:1;border-top:1.5px dashed currentColor;opacity:.6}
 .note{font-size:13px;color:var(--muted);background:var(--soft);border-radius:8px;padding:4px 10px;margin:2px 0 6px}
 .pscript .note{background:rgba(255,255,255,.06);color:var(--stage-muted)}
-.ntools{display:flex;gap:6px;margin-top:4px}
-.ntools button{font-size:11px;font-weight:600;border:1px dashed var(--line);background:var(--card);border-radius:999px;padding:2px 9px;color:var(--muted)}
+.ntools{display:flex;gap:6px;margin-top:6px}
+.addp{position:absolute;inset-inline-end:2px;top:8px;width:24px;height:24px;border-radius:50%;border:1px dashed var(--line);background:var(--card);color:var(--muted);font-size:16px;line-height:1;display:grid;place-items:center;padding:0;font-family:var(--f-mono)}
+.addp[aria-expanded="true"]{border-style:solid;border-color:var(--ink);color:var(--ink)}
+.sc-line{padding-inline-end:36px!important}
+.sc-dir{position:relative}
+.ntools button{font-size:12px;font-weight:600;border:1px dashed var(--line);background:var(--card);border-radius:999px;padding:2px 9px;color:var(--muted)}
 .rbadge{display:inline-block;font-size:11px;font-weight:700;color:#fff;background:#2F8270;border-radius:999px;padding:0 8px;margin-inline-end:6px}
 .rbadge.end{background:var(--cue)}
 .out{opacity:.35}
@@ -473,9 +522,7 @@ button.state-pill{border:0;font-family:inherit;cursor:pointer}
           <!-- HOME -->
           <div class="screen" id="s-home">
             <div class="scr-body" style="padding-top:12px">
-              <div>
-                <p class="hello">صباح الخير يا دينا</p>
-              </div>
+              <button type="button" class="trial-chip" id="trial-chip" hidden>تجربة مجانية · <i>سكريبتين</i></button>
               <div class="label">مشاريعك</div>
               <div class="lib" id="projects"></div>
             </div>
@@ -488,7 +535,7 @@ button.state-pill{border:0;font-family:inherit;cursor:pointer}
               <label class="p-search"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg><input type="search" id="scene-q" placeholder="دوّري في المشاهد والجمل" autocomplete="off" enterkeyhint="search"></label>
               <button type="button" class="new-cta" data-go="import">
                 <span class="plus"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span>
-                <span><b>سكريبت جديد</b><small>ورق، Word أو PDF، واتساب</small></span>
+                <span><b>سكريبت جديد</b><small>ورق، Word أو PDF، واتساب</small></span><span class="lock" data-lock hidden>🔒</span>
               </button>
               <div class="label">المشاهد</div>
               <div class="lib" id="scenes"></div>
@@ -677,7 +724,9 @@ button.state-pill{border:0;font-family:inherit;cursor:pointer}
           <div class="screen" id="s-account" hidden>
             <div class="scr-head"><div class="grow"><h3>الحساب</h3></div></div>
             <div class="scr-body">
-              <div class="acc-card"><span class="avatar">د</span><span><b>دينا</b><small>ممثلة</small></span></div>
+              <div class="acc-card"><span class="avatar">د</span><span><b>دينا</b><small id="acc-phone" dir="ltr"></small></span></div>
+              <div class="label">الاشتراك</div>
+              <div class="acc-list"><button type="button" class="acc-row" id="acc-sub"><span>⭐ بروفة برو</span><small id="acc-sub-state"></small></button></div>
               <div class="label">البروفة</div>
               <div class="acc-list">
                 <button type="button" class="acc-row" id="acc-mictest"><span>🎙 اختبري الميكروفون</span><small class="mic-out" id="acc-mictest-out">اتأكدي إنه سامعك قبل البروفة</small></button>
@@ -687,8 +736,45 @@ button.state-pill{border:0;font-family:inherit;cursor:pointer}
               <div class="label">بروفة</div>
               <div class="acc-list">
                 <div class="acc-row"><span>ℹ️ النسخة</span><small>نسخة تجريبية v0.1</small></div>
+                <button type="button" class="acc-row" id="acc-logout"><span>↩︎ تسجيل خروج</span></button>
               </div>
             </div>
+          </div>
+
+          <!-- LOGIN: phone (V17) -->
+          <div class="screen auth" id="s-login" hidden>
+            <div>
+              <div class="logo">بروفة</div>
+              <p class="auth-tag">شريكك في البروفة، في أي وقت</p>
+            </div>
+            <div class="auth-form">
+              <div><h4>رقم الموبايل</h4><p class="hint">هنبعت كود من ٦ أرقام في رسالة</p></div>
+              <label class="phone-in"><span class="cc">+20</span><input type="tel" id="login-phone" inputmode="numeric" autocomplete="tel-national" placeholder="10 1234 5678" maxlength="13" aria-label="رقم الموبايل"></label>
+              <p class="err" id="login-err" hidden>اكتب رقم موبايل مصري صحيح، ١١ رقم بيبدأ بـ ٠١</p>
+              <button type="button" class="btn primary" id="login-send" disabled>إرسال الكود</button>
+              <p class="legal">بالدخول بتوافق على <u>الشروط</u> و<u>سياسة الخصوصية</u></p>
+            </div>
+          </div>
+
+          <!-- LOGIN: SMS code (V18) -->
+          <div class="screen auth" id="s-code" hidden>
+            <div>
+              <div class="logo">بروفة</div>
+            </div>
+            <div class="auth-form">
+              <div><h4>اكتب الكود</h4><p class="hint">بعتناه في رسالة على <span id="code-phone"></span></p></div>
+              <label class="otp" id="otp"><span></span><span></span><span></span><span></span><span></span><span></span><input type="text" id="code-in" inputmode="numeric" autocomplete="one-time-code" maxlength="6" aria-label="كود الرسالة"></label>
+              <p class="err" id="code-err" hidden></p>
+              <div class="links"><button type="button" id="code-change">تغيير الرقم</button><button type="button" id="code-resend" disabled></button></div>
+              <p class="legal">نسخة تجريبية: أي ٦ أرقام هتدخلك</p>
+            </div>
+          </div>
+
+          <!-- SUBSCRIPTION (V19) -->
+          <div class="screen" id="s-sub" hidden>
+            <div class="scr-head"><button type="button" class="icon-btn back" aria-label="رجوع"></button><div class="grow"><h3>الاشتراك</h3></div></div>
+            <div class="scr-body" id="sub-body"></div>
+            <div class="sub-foot" id="sub-foot"></div>
           </div>
 
           <!-- NEXT -->
@@ -708,6 +794,18 @@ button.state-pill{border:0;font-family:inherit;cursor:pointer}
               <button type="button" class="toggle" data-tog="mic"><span>🎙 الميكروفون يعرف إنك خلصتي<small>قولي جملتك، ولما تسكتي يكمّل المشهد لوحده</small></span><span class="sw"></span></button>
               <div class="field"><span class="label">يستنى قد إيه سكوت قبل ما يكمّل (عشان الوقفات الدرامية)</span><div class="seg" data-set="silence"></div></div>
               <button type="button" class="btn primary" id="sheet-close">تمام</button>
+            </div>
+          </div>
+<div class="sheet-wrap" id="buy" hidden>
+            <div class="sheet" role="dialog" aria-label="تأكيد الاشتراك">
+              <div class="grab"></div>
+              <h4>تأكيد الاشتراك</h4>
+              <div><div class="buy-row"><span>بروفة برو</span><small>اشتراك شهري</small></div>
+              <div class="buy-row"><span>السعر</span><b>٢٤٩ ج.م / شهر</b></div>
+              <div class="buy-row"><span>الحساب</span><small id="buy-acct" dir="ltr"></small></div></div>
+              <p class="buy-note">الدفع بيتم من المتجر (App Store أو Google Play). بيتجدد كل شهر لحد ما تلغيه.</p>
+              <button type="button" class="btn primary" id="buy-ok">تأكيد</button>
+              <button type="button" class="btn ghost" id="buy-cancel">إلغاء</button>
             </div>
           </div>
 <nav class="nav gnav" id="gnav"></nav>
@@ -1426,10 +1524,10 @@ function renderNote(k){
 }
 
 /* ---------- navigation ---------- */
-const VIEW_IDS={takes:'V14',dates:'V15',account:'V16',project:'V13',home:'V01',import:'V02',scan:'V03',files:'V04',chat:'V05',paste:'V06',proc:'V07',chars:'V08',reader:'V09',partner:'V10',next:'V11',sheet:'V12'};
+const VIEW_IDS={takes:'V14',dates:'V15',account:'V16',project:'V13',home:'V01',import:'V02',scan:'V03',files:'V04',chat:'V05',paste:'V06',proc:'V07',chars:'V08',reader:'V09',partner:'V10',next:'V11',sheet:'V12',login:'V17',code:'V18',sub:'V19',buy:'V19'};
 const TAB_OF={home:'home',project:'home',import:'home',scan:'home',files:'home',chat:'home',paste:'home',proc:'home',chars:'home',takes:'takes',dates:'dates',account:'account',next:'account'};
 function syncNav(k){
-  const show=!['reader','partner'].includes(k);
+  const show=!['reader','partner','login','code','sub'].includes(k);
   $('#gnav').hidden=!show;$('#screens').classList.toggle('with-nav',show);
   $('#gnav').innerHTML=navHTML(TAB_OF[k]||'home');
 }
@@ -1441,6 +1539,10 @@ function show(k){
   if(k==='partner'){S.mode='partner';enterPartner()}
   if(k==='takes')renderTakes();
   if(k==='dates')renderDates();
+  if(k==='sub')renderSub();
+  if(k==='account')renderAccount();
+  if(k==='code')startCodeScreen();
+  renderPlanUI();
 }
 function go(k,replace){
   if(S.screen==='reader'||S.screen==='partner')stop();
@@ -1471,6 +1573,105 @@ document.addEventListener('click',e=>{
 let toastT;
 function toast(msg,ms){const t=$('#toast');t.textContent=msg;t.hidden=false;clearTimeout(toastT);toastT=setTimeout(()=>t.hidden=true,ms||2400)}
 
+/* ---------- login (V17/V18) + subscription (V19): prototype only, no SMS is sent and nothing is charged ---------- */
+const FREE_SCRIPTS=['station','cafe'];
+const store={get(k){try{return JSON.parse(localStorage.getItem(k))}catch(e){return null}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}},del(k){try{localStorage.removeItem(k)}catch(e){}}};
+const AUTH={phone:(store.get('brova-auth')||{}).phone||'',pending:'',plan:null};
+function loadPlan(){AUTH.plan=AUTH.phone?store.get('brova-plan-'+AUTH.phone):null}
+loadPlan();
+const isPro=()=>!!(AUTH.plan&&AUTH.plan.pro);
+const isLocked=sid=>!isPro()&&!FREE_SCRIPTS.includes(sid);
+const latin=s=>String(s).replace(/[٠-٩]/g,d=>'٠١٢٣٤٥٦٧٨٩'.indexOf(d)).replace(/[۰-۹]/g,d=>'۰۱۲۳۴۵۶۷۸۹'.indexOf(d));
+// Egyptian mobiles: 010 / 011 / 012 / 015 + 8 digits; accepts 01…, 1… (after +20) or 20…
+function normPhone(v){let d=latin(v).replace(/\D/g,'');if(d.length===12&&d.startsWith('20'))d=d.slice(2);if(d.length===10&&d[0]==='1')d='0'+d;return /^01[0125]\d{8}$/.test(d)?d:''}
+// LRI…PDI keeps the number left-to-right inside Arabic text
+const fmtPhone=d=>d?'\u2066+20 '+d.slice(1,3)+' '+d.slice(3,7)+' '+d.slice(7)+'\u2069':'';
+const fmtDate=t=>new Date(t).toLocaleDateString('ar-EG',{day:'numeric',month:'long'});
+
+// V17: phone
+const lp=$('#login-phone');
+lp.addEventListener('input',()=>{$('#login-send').disabled=!latin(lp.value).replace(/\D/g,'');$('#login-err').hidden=true});
+$('#login-send').addEventListener('click',()=>{const d=normPhone(lp.value);if(!d){$('#login-err').hidden=false;return}AUTH.pending=d;go('code')});
+
+// V18: six-digit code (one real input under six painted boxes, so paste and SMS autofill work)
+let codeT=null;
+function paintOtp(){const inp=$('#code-in'),v=inp.value,f=document.activeElement===inp;$$('#otp span').forEach((sp,i)=>{sp.textContent=v[i]?ar(v[i]):'';sp.classList.toggle('cur',f&&i===Math.min(v.length,5))})}
+function startCodeScreen(){
+  $('#code-phone').textContent=fmtPhone(AUTH.pending);
+  $('#code-in').value='';$('#code-err').hidden=true;paintOtp();
+  setTimeout(()=>$('#code-in').focus(),60);
+  let left=30;const rb=$('#code-resend');
+  const tick=()=>{rb.disabled=left>0;rb.textContent=left>0?'كود تاني بعد \u2066٠:'+ar(String(left).padStart(2,'0'))+'\u2069':'ابعت كود تاني';if(left<=0)clearInterval(codeT);left--};
+  clearInterval(codeT);tick();codeT=setInterval(tick,1000);
+}
+$('#code-in').addEventListener('input',e=>{const t=e.target;t.value=latin(t.value).replace(/\D/g,'').slice(0,6);$('#code-err').hidden=true;paintOtp();if(t.value.length===6)verifyCode()});
+$('#code-in').addEventListener('focus',paintOtp);$('#code-in').addEventListener('blur',paintOtp);
+$('#code-change').addEventListener('click',()=>{clearInterval(codeT);back()});
+$('#code-resend').addEventListener('click',()=>{toast('بعتنا كود جديد');startCodeScreen()});
+// prototype shortcut: Enter on V17 signs in with the sample number, Enter on V18 accepts the code
+const DEMO_PHONE='01012345678';
+document.addEventListener('keydown',e=>{
+  if(e.key!=='Enter'||e.isComposing)return;
+  if(S.screen==='login'){e.preventDefault();AUTH.pending=normPhone(lp.value)||DEMO_PHONE;$('#login-err').hidden=true;go('code')}
+  else if(S.screen==='code'){e.preventDefault();verifyCode()}
+});
+let verifying=false;
+function verifyCode(){
+  if(verifying)return;verifying=true;
+  const err=$('#code-err');$('#code-in').blur();err.hidden=false;err.style.color='var(--muted)';err.textContent='بنتأكد من الكود…';
+  setTimeout(()=>{
+    verifying=false;err.hidden=true;err.style.color='';clearInterval(codeT);
+    AUTH.phone=AUTH.pending;store.set('brova-auth',{phone:AUTH.phone});loadPlan();renderProjects();
+    S.hist=[];go('home',true);toast('أهلاً في بروفة 👋');
+  },700);
+}
+
+// V19: subscription
+const PRO_FEATS=[['ارفعي أي سكريبت','Word أو PDF، من واتساب، أو صورة ورق'],['مشاهد ومشاريع من غير حدود',''],['AI Partner','شخصية تبصّلك وتردّ عليكي بصوت مصري'],['سجّلي self-tape','وشوفي تسجيلاتك في أي وقت'],['ملاحظات وبيتس والجزء اللي بتذاكريه','']];
+function renderSub(){
+  const pro=isPro();
+  $('#sub-body').innerHTML=(pro
+    ?`<div class="pro-on"><b>⭐ إنتي مشتركة في بروفة برو</b><small>بيتجدد ${fmtDate(AUTH.plan.renews)} بـ ٢٤٩ ج.م</small></div>`
+    :`<div class="pro-hero"><b>بروفة برو</b><span>كل حاجة مفتوحة، لكل مشاريعك</span><div class="pro-price">٢٤٩ ج.م <small>/ شهر</small></div></div>`)
+   +`<div class="label">${pro?'معاكي':'مع برو'}</div><ul class="pro-list">${PRO_FEATS.map(([a,b])=>`<li><span>${a}${b?`<small>${b}</small>`:''}</span></li>`).join('')}</ul>`
+   +(pro?'':`<div class="label">التجربة المجانية</div><p style="margin:0;color:var(--muted);font-size:13px">مشهدين بس: محطة مصر وكافيه في الزمالك</p>`);
+  $('#sub-foot').innerHTML=pro
+    ?`<p class="fine">تقدري تلغي الاشتراك في أي وقت من إعدادات المتجر</p><button type="button" class="btn ghost" id="sub-manage">إدارة الاشتراك</button>`
+    :`<button type="button" class="btn primary" id="sub-buy">اشتركي بـ ٢٤٩ ج.م في الشهر</button><p class="fine">بيتجدد كل شهر، وتقدري تلغيه في أي وقت من المتجر</p><button type="button" class="restore" id="sub-restore">استرجاع الاشتراك</button>`;
+}
+function openBuy(){$('#buy-acct').textContent=fmtPhone(AUTH.phone);const b=$('#buy-ok');b.disabled=false;b.textContent='تأكيد';$('#buy').hidden=false;setViewId('buy')}
+function closeBuy(){if(!$('#buy').hidden){$('#buy').hidden=true;setViewId(S.screen)}}
+$('#buy-cancel').addEventListener('click',closeBuy);
+$('#buy').addEventListener('click',e=>{if(e.target.id==='buy')closeBuy()});
+$('#buy-ok').addEventListener('click',()=>{
+  const b=$('#buy-ok');b.disabled=true;b.textContent='جاري التأكيد…';
+  setTimeout(()=>{
+    const nx=new Date();nx.setMonth(nx.getMonth()+1);AUTH.plan={pro:true,since:Date.now(),renews:nx.getTime()};store.set('brova-plan-'+AUTH.phone,AUTH.plan);
+    closeBuy();renderProjects();renderScenes();renderPlanUI();toast('مبروك! بروفة برو اتفعّلت ⭐',3000);back();
+  },900);
+});
+document.addEventListener('click',e=>{
+  if(e.target.closest('#sub-buy'))openBuy();
+  else if(e.target.closest('#sub-restore'))toast('مفيش اشتراك قبل كده على الرقم ده');
+  else if(e.target.closest('#sub-manage'))toast('في التطبيق الحقيقي ده بيفتح الاشتراك في App Store أو Google Play',3500);
+  else if(e.target.closest('#trial-chip,#acc-sub'))go('sub');
+});
+// free trial: anything outside the two free scenes opens V19 instead (capture phase, so it runs before the normal handlers)
+document.addEventListener('click',e=>{
+  if(isPro()||!AUTH.phone)return;
+  const t=e.target,sc=t.closest('#scenes [data-script]');
+  const hit=t.closest('[data-go="import"]')||(t.closest('#p-rec')&&!REC.rec)||(sc&&isLocked(sc.dataset.script));
+  if(!hit)return;
+  e.preventDefault();e.stopPropagation();go('sub');
+},true);
+function renderPlanUI(){const pro=isPro();$('#trial-chip').hidden=pro;$$('[data-lock]').forEach(x=>x.hidden=pro);$('#p-rec').classList.toggle('locked',!pro)}
+function renderAccount(){$('#acc-phone').textContent=fmtPhone(AUTH.phone);$('#acc-sub-state').textContent=isPro()?'برو، بيتجدد '+fmtDate(AUTH.plan.renews):'تجربة مجانية: مشهدين بس. اشتركي عشان تفتحي كل حاجة'}
+$('#acc-logout').addEventListener('click',()=>{
+  if(REC.rec)stopTake();
+  store.del('brova-auth');AUTH.phone='';AUTH.plan=null;lp.value='';$('#login-send').disabled=true;
+  S.hist=[];go('login',true);
+});
+
 /* home */
 /* projects (series / film / audition) → their scenes */
 const PROJECTS=[
@@ -1482,8 +1683,8 @@ const pct=n=>`<span class="prog"><span class="bar"><i style="width:${n}%"></i></
 function renderProjects(){
   $('#projects').innerHTML=PROJECTS.map(p=>{
     const avg=Math.round(p.scenes.reduce((a,x)=>a+x[2],0)/p.scenes.length);
-    const n=p.scenes.length;
-    return `<button type="button" class="lib-item" data-project="${p.id}"><span class="pg"></span><span class="meta"><b>${esc(p.title)}</b><small>${esc(p.kind)}، إنتي: ${esc(p.role)}، ${n===1?'مشهد واحد':n===2?'مشهدين':ar(n)+' مشاهد'}، ${esc(p.when)}</small>${pct(avg)}</span></button>`;
+    const n=p.scenes.length,lk=p.scenes.every(x=>isLocked(x[0]));
+    return `<button type="button" class="lib-item${lk?' locked':''}" data-project="${p.id}"><span class="pg"></span><span class="meta"><b>${esc(p.title)}</b><small>${esc(p.kind)}، إنتي: ${esc(p.role)}، ${n===1?'مشهد واحد':n===2?'مشهدين':ar(n)+' مشاهد'}، ${esc(p.when)}</small>${pct(avg)}</span>${lk?'<span class="lock" aria-label="مقفول">🔒</span>':''}</button>`;
   }).join('');
 }
 let curProject=null;
@@ -1508,7 +1709,8 @@ function renderScenes(){
       if(!inTitle&&!ln)return '';
       if(ln&&!inTitle)hit=`<span class="hit">${esc(ln.char)}: ${markHit(ln.text,q)}</span>`;
     }
-    return `<button type="button" class="lib-item" data-script="${sid}"><span class="pg"></span><span class="meta"><b>${esc(label)}</b><small>${ar(lines.length)} جملة، منهم ${ar(mine)} ليكي، ${chars===2?'شخصيتين':ar(chars)+' شخصيات'}</small>${hit}${pct(prog)}</span></button>`;
+    const lk=isLocked(sid);
+    return `<button type="button" class="lib-item${lk?' locked':''}" data-script="${sid}"><span class="pg"></span><span class="meta"><b>${esc(label)}</b><small>${ar(lines.length)} جملة، منهم ${ar(mine)} ليكي، ${chars===2?'شخصيتين':ar(chars)+' شخصيات'}</small>${hit}${pct(prog)}</span>${lk?'<span class="lock" aria-label="مقفول">🔒</span>':''}</button>`;
   }).join('');
   $('#scenes').innerHTML=html||`<div class="scene-empty">مفيش مشهد فيه «${esc($('#scene-q').value.trim())}»</div>`;
 }
@@ -2071,35 +2273,22 @@ function noteHTML(i,editable){
   if(editable&&S.editNote===i)return `<input class="note-in" id="note-in" data-note-in="${i}" value="${esc(NB.notes[i]||'')}" placeholder="ملاحظتك على الجملة دي">`;
   return NB.notes[i]?`<div class="note">✎ ${esc(NB.notes[i])}</div>`:'';
 }
-function rangeBadge(i){
-  const r=NB.range;if(!r)return '';
-  return (r.start===i?'<span class="rbadge">▶ من هنا</span>':'')+(r.end===i?'<span class="rbadge end">⏹ لحد هنا</span>':'');
-}
 const outOfRange=i=>S.sectionSel==='range'&&NB.range&&NB.range.end!=null&&(i<NB.range.start||i>NB.range.end);
-function noteTools(i){return S.noteMode?`<span class="ntools"><button type="button" data-beat="${i}">${NB.beats.includes(i)?'− بيت':'＋ بيت'}</button><button type="button" data-note="${i}">✎ ملاحظة</button></span>`:''}
+function noteTools(i){return `<button type="button" class="addp" data-add="${i}" aria-label="أضيفي ملاحظة أو بيت" aria-expanded="${S.addOpen===i}">+</button>`+(S.addOpen===i?`<span class="ntools"><button type="button" data-beat="${i}">${NB.beats.includes(i)?'− بيت':'＋ بيت'}</button><button type="button" data-note="${i}">✎ ملاحظة</button></span>`:'')}
 function renderReader(){
   $('#reader-sub').textContent=`${S.title}، إنتي: ${S.role}`;
-  const secs=sectionsList();
-  $('#sections').hidden=false;
-  const hasRange=NB.range&&NB.range.end!=null;
-  $('#sections').innerHTML=`<button type="button" data-sec="-1" aria-pressed="${S.sectionSel===-1}">المشهد كله</button>`
-    +(secs.length>1?secs.map(x=>`<button type="button" data-sec="${x}" aria-pressed="${S.sectionSel===x}">المقطع ${ar(x+1)}</button>`).join(''):'')
-    +(hasRange?`<button type="button" data-sec="range" aria-pressed="${S.sectionSel==='range'}">✂️ الجزء بتاعي</button>`:'')
-    +`<button type="button" class="tool" data-tool="range" aria-pressed="${!!S.pick}">${S.pick==='start'?'دوسي على أول جملة':S.pick==='end'?'دوسي على آخر جملة':hasRange?'✂️ غيّري الجزء':'✂️ من هنا لحد هنا'}</button>`
-    +(hasRange?`<button type="button" class="tool" data-tool="clear">✕ امسحي الجزء</button>`:'')
-    +`<button type="button" class="tool" data-tool="notes" aria-pressed="${!!S.noteMode}">✏️ ملاحظات وبيتس</button>`;
-  let last=-1,html=sceneHeaderHTML(true);
+  $('#sections').hidden=true;S.sectionSel=-1;
+  let html=sceneHeaderHTML(true);
   S.items.forEach((it,i)=>{
     if(it.t==='head')return;
-    if(secs.length>1&&it.section!==last){html+=`<div class="sc-sec">المقطع ${ar(it.section+1)}</div>`;last=it.section}
     html+=beatBefore(i);
     const out=outOfRange(i)?' out':'';
     if(it.t==='dir'){
       const act=isMineAct(it);
-      html+=`<p class="sc-dir${act?' mine-act':''}${out}" data-i="${i}">${rangeBadge(i)}${act?'<span class="act">✋ فعلك</span> ':''}(${esc(it.text)})${noteTools(i)}</p>${noteHTML(i,true)}`;
+      html+=`<p class="sc-dir${act?' mine-act':''}${out}" data-i="${i}">${act?'<span class="act">✋ فعلك</span> ':''}(${esc(it.text)})${noteTools(i)}</p>${noteHTML(i,true)}`;
     }else{
       const mine=it.char===S.role;
-      html+=`<div class="sc-line ${mine?'mine':''}${out}" data-i="${i}">${rangeBadge(i)}<div class="sc-name"><span class="dot" style="background:${colorOf(it.char)}"></span>${esc(it.char)}${it.paren?` <span class="paren">(${esc(it.paren)})</span>`:''}${readChips(it)}</div><p class="sc-text">${mine?`<span class="hl">${hideHTML(it.voice||it.text)}</span>`:esc(it.voice||it.text)}</p>${noteTools(i)}</div>${noteHTML(i,true)}`;
+      html+=`<div class="sc-line ${mine?'mine':''}${out}" data-i="${i}"><div class="sc-name"><span class="dot" style="background:${colorOf(it.char)}"></span>${esc(it.char)}${it.paren?` <span class="paren">(${esc(it.paren)})</span>`:''}${readChips(it)}</div><p class="sc-text">${mine?`<span class="hl">${hideHTML(it.voice||it.text)}</span>`:esc(it.voice||it.text)}</p>${noteTools(i)}</div>${noteHTML(i,true)}`;
     }
   });
   $('#script').innerHTML=html;
@@ -2160,29 +2349,12 @@ $('#script').addEventListener('click',e=>{
   const bl=e.target.closest('.blank');if(bl){bl.classList.toggle('show');return}
   const tc=e.target.closest('[data-to]');if(tc){const keep=S.i;cycleTo(+tc.dataset.to);renderReader();S.i=keep;rCursor(keep,true);return}
   if(e.target.closest('#goal,.note-in'))return;
-  const bt=e.target.closest('[data-beat]');if(bt){const i=+bt.dataset.beat;NB.beats=NB.beats.includes(i)?NB.beats.filter(x=>x!==i):[...NB.beats,i];saveNotes();renderReader();return}
-  const nt=e.target.closest('[data-note]');if(nt){S.editNote=+nt.dataset.note;renderReader();return}
+  const ad=e.target.closest('[data-add]');if(ad){const i=+ad.dataset.add;S.addOpen=S.addOpen===i?null:i;renderReader();return}
+  const bt=e.target.closest('[data-beat]');if(bt){const i=+bt.dataset.beat;NB.beats=NB.beats.includes(i)?NB.beats.filter(x=>x!==i):[...NB.beats,i];S.addOpen=null;saveNotes();renderReader();return}
+  const nt=e.target.closest('[data-note]');if(nt){S.editNote=+nt.dataset.note;S.addOpen=null;renderReader();return}
   const el=e.target.closest('[data-i]');if(!el)return;
-  if(S.pick){
-    const i=+el.dataset.i;
-    if(S.pick==='start'){NB.range={start:i,end:null};S.pick='end';toast('تمام. دلوقتي دوسي على آخر جملة')}
-    else{const a=Math.min(NB.range.start,i),b=Math.max(NB.range.start,i);NB.range={start:a,end:b};S.pick=null;S.sectionSel='range';S.i=a;saveNotes();toast('البروفة هتبقى على الجزء ده بس')}
-    renderReader();return;
-  }
-  if(S.noteMode)return;
+  if(S.addOpen!=null){S.addOpen=null;renderReader()}
   const wasPlaying=E.playing;stop();S.i=+el.dataset.i;rCursor(S.i,true);if(wasPlaying)play();
-});
-$('#sections').addEventListener('click',e=>{
-  const t=e.target.closest('[data-tool]');
-  if(t){
-    stop();const k=t.dataset.tool;
-    if(k==='range'){S.noteMode=false;S.pick=S.pick?null:'start';if(S.pick)toast('دوسي على أول جملة في الجزء اللي هتذاكريه')}
-    if(k==='clear'){NB.range=null;S.pick=null;S.sectionSel=-1;saveNotes()}
-    if(k==='notes'){S.pick=null;S.noteMode=!S.noteMode;if(S.noteMode)toast('دوسي «＋ بيت» عشان تقسّمي المشهد، أو «✎» لملاحظة')}
-    renderReader();return;
-  }
-  const b=e.target.closest('[data-sec]');if(!b)return;
-  stop();const v=b.dataset.sec;S.sectionSel=v==='range'?'range':+v;S.i=secRange().start;renderReader();
 });
 document.addEventListener('input',e=>{if(e.target.id==='goal'){NB.objective=e.target.value;saveNotes()}});
 $('#to-partner').addEventListener('click',()=>{stop();go('partner')});
@@ -2442,7 +2614,7 @@ $('#tab-biz').addEventListener('click',()=>tab('biz'));
 if(location.hash==='#business')tab('biz');
 
 /* boot */
-show('home');setFace('كريم',true);
+show(AUTH.phone?'home':'login');setFace('كريم',true);
 })();
 </script>
 </body></html>
