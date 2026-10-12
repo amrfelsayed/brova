@@ -42,7 +42,7 @@ button{font:inherit;color:inherit;cursor:pointer}
 .tabs button[aria-selected="true"]{background:var(--card);color:var(--ink);box-shadow:0 1px 3px rgba(0,0,0,.12)}
 
 /* app layout */
-.app-layout{display:grid;grid-template-columns:auto minmax(0,1fr);gap:48px;align-items:start;padding-top:28px}
+.app-layout{display:grid;grid-template-columns:minmax(0,1fr);justify-items:center;gap:48px;align-items:start;padding-top:28px}
 .notes{position:sticky;top:96px;display:flex;flex-direction:column;gap:16px;max-width:520px;min-width:0}
 .notes .eyebrow{font-family:var(--f-mono);font-size:12px;letter-spacing:.06em;color:var(--muted)}
 .notes h2{font-family:var(--f-display);font-weight:700;font-size:30px;line-height:1.25;margin:0;text-wrap:balance}
@@ -588,7 +588,7 @@ button.chipx.to{border:1px dashed var(--line);background:var(--card);cursor:poin
         <div class="toast" id="toast" hidden></div>
       </div>
 
-      <aside class="notes" aria-live="polite">
+      <aside class="notes" aria-live="polite" hidden>
         <div class="eyebrow" id="n-eyebrow"></div>
         <h2 id="n-title"></h2>
         <p id="n-body"></p>
