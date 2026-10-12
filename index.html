@@ -264,10 +264,10 @@ button.chipx.to{border:1px dashed var(--line);background:var(--card);cursor:poin
 .stage .scr-head .sub{color:var(--stage-muted)}
 .cam-tip{display:flex;justify-content:center;font-size:11px;color:var(--stage-muted);gap:6px;align-items:center;margin-top:-4px}
 .cam-tip b{color:#FFE14D;font-weight:600}
-.face-wrap{position:relative;display:flex;justify-content:center;flex:none;margin-top:2px}
-.face-wrap svg{width:min(250px,64%);height:auto;display:block;transition:opacity .25s}
+.face-wrap{position:relative;display:flex;justify-content:center;align-items:flex-start;gap:10px;flex:none;margin-top:4px;padding-inline:14px}
+.face-wrap svg{width:calc(50% - 5px);max-width:200px;height:auto;display:block;transition:opacity .25s}
 .face-wrap svg.swap,#face-cv.swap{opacity:0}
-#face-cv{width:min(270px,70%);aspect-ratio:3/4;height:auto;display:block;border-radius:22px;transition:opacity .25s,box-shadow .25s;
+#face-cv{width:calc(50% - 5px);max-width:200px;aspect-ratio:3/4;height:auto;display:block;border-radius:22px;transition:opacity .25s,box-shadow .25s;
   -webkit-mask-image:linear-gradient(#000 82%,transparent);mask-image:linear-gradient(#000 82%,transparent)}
 .face-wrap.photo .ring{display:none}
 .face-wrap.talking #face-cv{box-shadow:0 0 0 3px rgba(255,225,77,.85),0 0 28px rgba(255,225,77,.35)}
@@ -291,7 +291,8 @@ button.chipx.to{border:1px dashed var(--line);background:var(--card);cursor:poin
 .stage .done-turn{margin:10px 18px 0;background:#FFE14D;color:#1A1606;border:0;border-radius:14px;padding:13px;font-weight:700;font-size:16px}
 .pip{position:absolute;top:8px;inset-inline-end:14px;width:62px;height:84px;border-radius:12px;border:1.5px dashed var(--stage-muted);display:flex;flex-direction:column;align-items:center;justify-content:flex-end;padding-bottom:6px;font-size:10px;color:var(--stage-muted);gap:2px}
 .pip{z-index:5;padding:0;overflow:hidden;background:#0B0C18;transition:width .2s,height .2s}
-.pip.big{width:132px;height:176px}
+.pip.side{position:relative;top:auto;inset-inline-end:auto;width:calc(50% - 5px);max-width:200px;height:auto;aspect-ratio:3/4;border-radius:22px;font-size:12px;padding-bottom:10px}
+.pip.side.big{width:calc(50% - 5px)}
 .pip video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transform:scaleX(-1)}
 .pip span{position:relative;background:rgba(0,0,0,.45);border-radius:6px;padding:1px 5px;color:#fff}
 .pip.live{border-style:solid;border-color:rgba(255,255,255,.35)}
@@ -353,7 +354,6 @@ button.chipx.to{border:1px dashed var(--line);background:var(--card);cursor:poin
   .phone{width:100%;height:calc(100dvh - 72px);min-height:520px;border:0;border-radius:22px;box-shadow:0 0 0 1px var(--line)}
   .notch,.statusbar{display:none}
   .vid-tag{display:block}
-  .pip{top:30px}
   .screens{top:0}
   .notes h2{font-size:24px}
   .biz h1{font-size:36px}
@@ -554,7 +554,7 @@ button.chipx.to{border:1px dashed var(--line);background:var(--card);cursor:poin
           <!-- AI PARTNER -->
           <div class="screen stage" id="s-partner" hidden>
             <div class="scr-head"><button type="button" class="icon-btn back" aria-label="رجوع"></button><div class="grow"><h3>AI Partner</h3><div class="sub" id="partner-sub"></div></div></div>
-            <button type="button" class="pip" id="pip" aria-label="الكاميرا: شوفي نفسك"><video id="selfcam" autoplay playsinline muted></video><span id="pip-label">إنتي</span></button>
+            
             <div class="cam-tip"><b>↑ الكاميرا</b> بصّي في عينيه، هتبقي باصة للكاميرا</div>
             <div class="face-wrap" id="face-wrap">
               <div class="ring"></div>
@@ -574,6 +574,7 @@ button.chipx.to{border:1px dashed var(--line);background:var(--card);cursor:poin
                   <path id="mouth" fill="#5B2230" stroke="#9B4A55" stroke-width="2.5" stroke-linejoin="round"/>
                 </g>
               </svg>
+              <button type="button" class="pip side" id="pip" aria-label="الكاميرا: شوفي نفسك"><video id="selfcam" autoplay playsinline muted></video><span id="pip-label">إنتي</span></button>
             </div>
             <div class="who-row"><b id="p-name"></b><span class="state-pill" id="p-state">جاهز</span></div>
             <div class="subs" id="subs"><span class="small">دوسي ▶ والشخصية هتبدأ المشهد</span></div>
