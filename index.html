@@ -286,6 +286,10 @@ button.chipx.to{border:1px dashed var(--line);background:var(--card);cursor:poin
 .subs .blank{border-bottom-color:#1A1606}
 .subs.pscript{display:block;flex:1;min-height:0;overflow-y:auto;overscroll-behavior:contain;position:relative;text-align:start;margin-bottom:6px;padding:8px 12px 40px}
 .ps-tools{text-align:center;margin-bottom:6px}
+#s-partner .face-wrap svg,#s-partner #face-cv,#s-partner .pip.side{width:calc(36% - 5px);max-width:130px}
+#s-partner .face-wrap svg{padding:10px 4px 0;border-radius:16px}
+#s-partner .pip.side,#s-partner #face-cv{border-radius:16px}
+#s-partner .who-row{margin-top:2px}
 .ps-line{padding:8px 10px;border-radius:12px;margin:2px 0;border-inline-start:3px solid transparent}
 .ps-line.now{background:rgba(255,255,255,.07);border-inline-start-color:#FFE14D}
 .ps-name{font-family:var(--f-body);font-size:12px;color:var(--stage-muted)}
@@ -536,7 +540,7 @@ button.chipx.to{border:1px dashed var(--line);background:var(--card);cursor:poin
                 <button type="button" class="icon-btn" id="r-next" aria-label="الجملة اللي بعد"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M16 6l-8 6 8 6zM6 6v12"/></svg></button>
                 <button type="button" class="icon-btn" id="r-settings" aria-label="الإعدادات"><span class="speedtag" id="speedtag">١×</span></button>
               </div>
-              <div class="voice-note" id="voice-note">صوت تجريبي من الموبايل، التطبيق الحقيقي بصوت مصري طبيعي</div>
+              <div class="voice-note" id="voice-note" hidden>صوت تجريبي من الموبايل، التطبيق الحقيقي بصوت مصري طبيعي</div>
             </div>
             <div class="sheet-wrap" id="sheet" hidden>
               <div class="sheet" role="dialog" aria-label="إعدادات البروفة">
@@ -1697,7 +1701,7 @@ async function micTest(out){
     const lv=Math.min(1,micRms()/.08);const bars='▮'.repeat(Math.round(lv*10)).padEnd(10,'▯');
     out.textContent=`مستوى الصوت ${bars}`+(SR?(words?` · سمعت: «${words.trim()}»`:err?` · التعرف على الكلام: ${SR_ERR[err]||err}`:' · لسه مسمعتش كلام'):' · المتصفح ده مش بيتعرف على الكلام، هيكمّل لما تسكتي');
     if(performance.now()-t0>6000){clearInterval(tm);try{rec&&rec.abort()}catch(_){}
-      out.textContent+=words?' ✅ تمام، شغال':(SR&&!err?' — لو كنتي بتتكلمي ومسمعش، جربي Chrome':'');}
+      out.textContent+=words?' ✅ تمام، شغال':(SR&&!err?' — لو كنتي بتتكلمي ومسمعش كلام: اتأكدي إن النت شغال، وإن مفيش تاب أو برنامج تاني ماسك الميكروفون':'');}
   },150);
 }
 async function toggleMic(){
@@ -1795,9 +1799,8 @@ function toChip(it){
   if(it.toNum==='p')return ' <span class="chipx to">← للكل</span>';
   if(!it.to&&!it.toG&&!it.spans)return '';
   const who=it.spans?'أكتر من حد':it.to==='self'?'لنفسه':it.to?String(it.to).replace(/^ext:/,''):'؟';
-  const g=it.spans?'':it.toG==='f'?'، لست':it.toG==='m'?'، لراجل':'، ؟';
   const low=it.toConf!=='high'&&!it.spans;
-  return ` <button type="button" class="chipx to${low?' low':''}" data-to="${S.items.indexOf(it)}" title="${esc(it.toWhy||'')}: دوسي للتغيير">← ${esc(who)}${g}${low?' ؟':''}</button>`;
+  return ` <button type="button" class="chipx to${low?' low':''}" data-to="${S.items.indexOf(it)}" title="${esc(it.toWhy||'')}: دوسي للتغيير">← ${esc(who)}</button>`;
 }
 function cycleTo(i){
   const it=S.items[i];const others=S.chars.map(c=>c.name).filter(n=>n!==it.char);if(!others.length)return;
