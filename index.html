@@ -178,6 +178,11 @@ textarea{width:100%;min-height:300px;border:1px solid var(--line);border-radius:
 .dot{width:9px;height:9px;border-radius:50%;display:inline-block;flex:none}
 .preview{border:1px solid var(--line);border-radius:14px;padding:12px 14px;display:flex;flex-direction:column;gap:6px;background:var(--paper)}
 .mode-btns{display:flex;flex-direction:column;gap:10px;margin-top:auto}
+#s-chars .scr-body{overflow:hidden;gap:12px;padding-bottom:14px}
+#s-chars .preview-field{flex:1;min-height:0}
+#s-chars .preview{flex:1;min-height:0;overflow:hidden;-webkit-mask-image:linear-gradient(#000 78%,transparent);mask-image:linear-gradient(#000 78%,transparent)}
+#s-chars .mode-btns{flex:none}
+#s-chars .mode-btns .btn{padding:11px 16px}
 .mode-btns .btn{justify-content:space-between;text-align:start;padding:14px 16px}
 .mode-btns .btn small{display:block;font-weight:400;opacity:.75;font-size:12px}
 
@@ -337,8 +342,12 @@ button.chipx.to{border:1px dashed var(--line);background:var(--card);cursor:poin
   .notes{position:static;max-width:560px;width:100%}
 }
 @media (max-width:520px){
-  .app-layout{padding-top:12px}
-  .phone{width:100%;height:min(760px,calc(100dvh - 92px));min-height:580px;border:0;border-radius:22px;box-shadow:0 0 0 1px var(--line)}
+  .app-layout{padding-top:8px}
+  .wrap{padding-block:0 6px}
+  .top{flex-wrap:nowrap;padding-block:8px}
+  .brand small{display:none}
+  .brand b{font-size:24px}
+  .phone{width:100%;height:calc(100dvh - 72px);min-height:520px;border:0;border-radius:22px;box-shadow:0 0 0 1px var(--line)}
   .notch,.statusbar{display:none}
   .vid-tag{display:block}
   .pip{top:30px}
@@ -494,10 +503,9 @@ button.chipx.to{border:1px dashed var(--line);background:var(--card);cursor:poin
           <div class="screen" id="s-chars" hidden>
             <div class="scr-head"><button type="button" class="icon-btn back" aria-label="رجوع"></button><div class="grow"><h3 id="chars-title">بيت العيلة، مشهد ٣٢</h3><div class="sub" id="chars-sub"></div></div></div>
             <div class="scr-body">
-              <p class="found" id="found"></p>
               <div class="field"><span class="label">إنتي مين؟</span><div class="chips" id="role-chips"></div></div>
               <div class="ai-read" id="ai-status" aria-live="polite" hidden></div>
-              <div class="field"><span class="label">أول المشهد، اتأكدي إن القراية مظبوطة</span><div class="preview" id="preview"></div></div>
+              <div class="field preview-field"><span class="label">أول المشهد، اتأكدي إن القراية مظبوطة</span><div class="preview" id="preview"></div></div>
               <div class="mode-btns">
                 <button type="button" class="btn primary" id="go-reader"><span>Scene Partner<small>يقرا الشخصيات التانية ويقف عند دورك</small></span><span>←</span></button>
                 <button type="button" class="btn ghost" id="go-partner"><span>AI Partner<small>شخصية تبصيلها وتتفاعل معاكي</small></span><span>←</span></button>
@@ -1325,7 +1333,6 @@ function renderChars(){
   renderAiStatus();aiRead();
   const nl=S.items.filter(i=>i.t==='line').length, nd=S.items.filter(i=>i.t==='dir').length;
   $('#chars-sub').textContent=`${ar(nl)} جملة، ${ar(nd)} إرشادات`;
-  $('#found').textContent=S.chars.length===1?'لقينا شخصية واحدة':S.chars.length===2?'لقينا شخصيتين':`لقينا ${ar(S.chars.length)} شخصيات`;
   $('#role-chips').innerHTML=S.chars.map(c=>`<button type="button" class="chip" data-role="${esc(c.name)}" aria-pressed="${c.name===S.role}"><span class="dot" style="background:${colorOf(c.name)}"></span>${esc(c.name)} <small>${ar(c.n)} جمل</small></button>`).join('');
   $('#preview').innerHTML=S.items.filter(i=>i.t!=='head').slice(0,5).map(it=>it.t==='dir'
     ?`<div class="sc-dir" style="margin:2px 0;font-size:14px">(${esc(it.text)})</div>`
