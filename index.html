@@ -201,10 +201,10 @@ textarea{width:100%;min-height:300px;border:1px solid var(--line);border-radius:
 .blank{color:transparent;background:none;border-bottom:2px solid var(--on-hi);cursor:pointer;border-radius:0}
 .blank.show{color:inherit;border-bottom-style:dotted}
 .tracing .w{opacity:.45;transition:opacity .15s,color .15s}
-.tracing .w.said{opacity:1;font-weight:700;text-decoration:underline 3px var(--cue);text-underline-offset:6px}
-.tracing .w.said.blank{color:inherit;border-bottom-color:transparent}
-.tracing .w.missed{opacity:1;text-decoration:underline wavy var(--cue);text-underline-offset:6px}
-.tracing .w.next{opacity:.8}
+.tracing .w.w-said{opacity:1;font-weight:700;text-decoration:underline 3px var(--cue);text-underline-offset:6px}
+.tracing .w.w-said.blank{color:inherit;border-bottom-color:transparent}
+.tracing .w.w-missed{opacity:1;text-decoration:underline wavy var(--cue);text-underline-offset:6px}
+.tracing .w.w-next{opacity:.8}
 .cuebar{flex:none;background:var(--cue);color:#fff;display:flex;align-items:center;gap:12px;padding:12px 18px}
 .cue-txt{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}
 .cuebar b{font-family:var(--f-display);font-size:20px}
@@ -1657,9 +1657,9 @@ function hideHTML(text){
 function paintTrace(idx,a){
   $$(`[data-i="${idx}"] .w`).forEach(el=>{
     const k=+el.dataset.w;el.closest('[data-i]').classList.add('tracing');
-    el.classList.toggle('said',!!a.hit[k]);
-    el.classList.toggle('missed',k<a.pos&&!a.hit[k]);
-    el.classList.toggle('next',k===a.pos);
+    el.classList.toggle('w-said',!!a.hit[k]);
+    el.classList.toggle('w-missed',k<a.pos&&!a.hit[k]);
+    el.classList.toggle('w-next',k===a.pos);
   });
 }
 function clearTrace(){$$('.tracing').forEach(el=>el.classList.remove('tracing'))}
