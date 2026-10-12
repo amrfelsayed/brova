@@ -293,7 +293,7 @@ button.chipx.to{border:1px dashed var(--line);background:var(--card);cursor:poin
 .pip{z-index:5;padding:0;overflow:hidden;background:#0B0C18;transition:width .2s,height .2s}
 .pip.side{position:relative;top:auto;inset-inline-end:auto;width:calc(50% - 5px);max-width:200px;height:auto;aspect-ratio:3/4;border-radius:22px;font-size:12px;padding-bottom:10px}
 .pip.side.big{width:calc(50% - 5px)}
-.pip video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transform:scaleX(-1)}
+.pip video{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;background:#000;transform:scaleX(-1)}
 .pip span{position:relative;background:rgba(0,0,0,.45);border-radius:6px;padding:1px 5px;color:#fff}
 .pip.live{border-style:solid;border-color:rgba(255,255,255,.35)}
 
@@ -1899,7 +1899,10 @@ async function startCam(){
   const pip=$('#pip');if(cam.stream)return;
   try{
     if(!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia)throw 0;
-    cam.stream=await navigator.mediaDevices.getUserMedia({video:{facingMode:'user',width:{ideal:640},height:{ideal:480}},audio:false});
+    cam.stream=await navigator.mediaDevices.getUserMedia({video:{facingMode:'user',aspectRatio:{ideal:3/4}},audio:false});
+    // 1x: undo any digital zoom the browser/phone applies to the front camera
+    try{const tr=cam.stream.getVideoTracks()[0],cap=tr.getCapabilities?tr.getCapabilities():{};
+      if(cap.zoom)await tr.applyConstraints({advanced:[{zoom:Math.max(cap.zoom.min||1,Math.min(1,cap.zoom.max||1))}]})}catch(_){}
     if(S.screen!=='partner'){stopCam();return}
     $('#selfcam').srcObject=cam.stream;pip.classList.add('live');$('#pip-label').textContent='إنتي';
   }catch(e){pip.classList.remove('live');$('#pip-label').textContent='الكاميرا مقفولة هنا'}
