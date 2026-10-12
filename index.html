@@ -555,7 +555,7 @@ button.chipx.to{border:1px dashed var(--line);background:var(--card);cursor:poin
           <div class="screen stage" id="s-partner" hidden>
             <div class="scr-head"><button type="button" class="icon-btn back" aria-label="رجوع"></button><div class="grow"><h3>AI Partner</h3><div class="sub" id="partner-sub"></div></div></div>
             
-            <div class="cam-tip"><b>↑ الكاميرا</b> بصّي في عينيه، هتبقي باصة للكاميرا</div>
+            <div class="cam-tip" hidden><b>↑ الكاميرا</b> بصّي في عينيه، هتبقي باصة للكاميرا</div>
             <div class="face-wrap" id="face-wrap">
               <div class="ring"></div>
               <canvas id="face-cv" width="600" height="800" hidden aria-label="وش الشخصية"></canvas>
@@ -574,7 +574,7 @@ button.chipx.to{border:1px dashed var(--line);background:var(--card);cursor:poin
                   <path id="mouth" fill="#5B2230" stroke="#9B4A55" stroke-width="2.5" stroke-linejoin="round"/>
                 </g>
               </svg>
-              <button type="button" class="pip side" id="pip" aria-label="الكاميرا: شوفي نفسك"><video id="selfcam" autoplay playsinline muted></video><span id="pip-label">إنتي</span></button>
+              <button type="button" class="pip side" id="pip" aria-label="الكاميرا: شوفي نفسك"><video id="selfcam" autoplay playsinline muted></video><span id="pip-label" hidden></span></button>
             </div>
             <div class="who-row"><b id="p-name"></b><span class="state-pill" id="p-state">جاهز</span></div>
             <div class="subs" id="subs"><span class="small">دوسي ▶ والشخصية هتبدأ المشهد</span></div>
@@ -1904,8 +1904,8 @@ async function startCam(){
     try{const tr=cam.stream.getVideoTracks()[0],cap=tr.getCapabilities?tr.getCapabilities():{};
       if(cap.zoom)await tr.applyConstraints({advanced:[{zoom:Math.max(cap.zoom.min||1,Math.min(1,cap.zoom.max||1))}]})}catch(_){}
     if(S.screen!=='partner'){stopCam();return}
-    $('#selfcam').srcObject=cam.stream;pip.classList.add('live');$('#pip-label').textContent='إنتي';
-  }catch(e){pip.classList.remove('live');$('#pip-label').textContent='الكاميرا مقفولة هنا'}
+    $('#selfcam').srcObject=cam.stream;pip.classList.add('live');$('#pip-label').hidden=true;
+  }catch(e){pip.classList.remove('live');const l=$('#pip-label');l.textContent='الكاميرا مقفولة هنا';l.hidden=false}
 }
 function stopCam(){if(cam.stream){cam.stream.getTracks().forEach(t=>t.stop());cam.stream=null}const v=$('#selfcam');if(v)v.srcObject=null;$('#pip').classList.remove('live')}
 $('#pip').addEventListener('click',()=>$('#pip').classList.toggle('big'));
